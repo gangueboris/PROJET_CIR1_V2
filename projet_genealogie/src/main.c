@@ -64,7 +64,7 @@ printf("\n");
 
     // Print the IDs of the ancestors
     printf("Les ids de la descendance de %d sont: \n", 1);
-    for (int i = 1; i < ances.ancestorsSize; i++) {
+    for (int i = 0; i < ances.ancestorsSize; i++) {
         if (ances.ancestorsList[i] != NULL) { // Ensure we don't dereference null pointers
             printf("id: %d\n", ances.ancestorsList[i]->id);
         }

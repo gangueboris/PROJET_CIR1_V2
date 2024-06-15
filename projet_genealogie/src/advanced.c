@@ -133,45 +133,52 @@ fratrie findFratrie(population pop, Person* p)
     }
     return frat;
 }
-// Helper function to add ancestors to the ancestors list
-void addAncestors(population pop, Person* person, ancestors* ances) {
-    if (person == NULL || person->id == 0) {
-        ances->ancestorsList[ances->ancestorsSize++] = pop.popDatas[hash_O(pop, 0)];
-        return; // If person is null or an unknown ancestor, do nothing
-    }
-
-    // Add the current person to the ancestors list
-    ances->ancestorsList[ances->ancestorsSize++] = person;
-
-    // Reallocate memory if capacity is reached
-    if (ances->ancestorsSize == ances->capacity) {
-        ances->capacity *= 2;
-        ances->ancestorsList = realloc(ances->ancestorsList, ances->capacity * sizeof(Person*));
-        if (ances->ancestorsList == NULL) {
-            fprintf(stderr, "Memory reallocation failed for ancestorsList\n");
-            exit(EXIT_FAILURE);
-        }
-    }
-
-    // Recursively add the father and mother
-    addAncestors(pop, person->p_father, ances);
-    addAncestors(pop, person->p_mother, ances);
-}
 
 ancestors ancestorsPersons(population pop, Person* p) {
-    // Initialize the ancestors structure
     ancestors ances;
+    ances.capacity = pop.capacity;
     ances.ancestorsSize = 0;
-    ances.capacity = pop.capacity; // Initial capacity
-    ances.ancestorsList = calloc(ances.capacity, sizeof(Person*));
+    ances.ancestorsList = malloc(ances.capacity * sizeof(Person*));
     if (ances.ancestorsList == NULL) {
-        fprintf(stderr, "Memory allocation failed for ancestorsList\n");
+        fprintf(stderr, "Memory allocation failed for ances.ancesList !!\n");
         exit(EXIT_FAILURE);
     }
 
-    // Start adding ancestors from the given person
-    addAncestors(pop, p, &ances);
+    // Initialize the queue
+    queue* q = new_queue(ances.capacity);
+    enqueue(q, hash_O(pop, p->id));
 
+    while (!is_queue_empty(q)) {
+        if (ances.ancestorsSize == ances.capacity) {
+            ances.capacity *= 2;
+            ances.ancestorsList = realloc(ances.ancestorsList, ances.capacity * sizeof(Person*));
+            if (ances.ancestorsList == NULL) {
+                fprintf(stderr, "Memory reallocation failed for ancestorsList\n");
+                exit(EXIT_FAILURE);
+            }
+        }
+
+        int index = dequeue(q);
+        ances.ancestorsList[ances.ancestorsSize++] = pop.popDatas[index];
+
+        if (index) {
+            
+            int father_id = pop.popDatas[index]->father_id;
+            int mother_id = pop.popDatas[index]->mother_id;
+
+            // Ensure that the father exists
+            if (father_id)
+                enqueue(q, hash_O(pop, father_id));
+                else
+                enqueue(q, hash_O(pop, 0));
+
+            if (mother_id)
+                enqueue(q, hash_O(pop, mother_id));
+            else
+                enqueue(q, hash_O(pop, 0));
+        }
+    }
+
+    free_queue(q);
     return ances;
 }
-
