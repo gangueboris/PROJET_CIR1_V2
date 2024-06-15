@@ -1,77 +1,88 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "population.h"
 #include "advanced.h"
-
+#define PATH_SIZE 50
 // test de la fonction 
+void menu (char* filename)
+{
+    char path[PATH_SIZE];
+    strcpy(path, filename);
+    population pop = read_csv(path);
+
+
+    int option;
+    printf("1. Rechercher la fratrie d'une personne par ID\n");
+    printf("2. Rechercher toute la géneration d'une personne par ID\n");
+    printf("3. Rechercher les n premières personnes de la population par ID\n");
+    printf("4. Rechercher la famille: NOM_DE_FAMILLE\n");
+    printf("\nChoississez une option: ");
+    scanf(" %d", &option);
+    printf("\n");
+
+    switch (option)
+    {
+        int id, n;
+        case 1:
+             printf("Entrer l'ID de la personne: ");
+             scanf("%d", &id);
+             printf("\n");
+           // test de la fonction fratrie
+            fratrie frat = findFratrie(pop, getPerson(pop, id));
+            printf("Voici les des frères et soeurs de ' %s ' :\n", pop.popDatas[hash_O(pop, id)]->firstname);
+            for(int i = 0; i < frat.capacity; i++)
+            {
+                if(frat.fratrieList[i]) 
+                printf("%s \t",frat.fratrieList[i]->firstname);
+            }
+            printf("\n");
+            break;
+        case 2:
+             printf("Entrer l'ID de la personne: ");
+             scanf("%d", &id);
+             printf("\n");
+
+             linkPopulation(pop);
+             ancestors ances = ancestorsPersons(pop, pop.popDatas[hash_O(pop, id)]);
+             printf("Voici toute la génération de ' %s' :\n",pop.popDatas[hash_O(pop, id)]->firstname);
+             for (int i = 1; i < ances.ancestorsSize; i++) 
+             {
+                if (ances.ancestorsList[i] != NULL) 
+                { 
+                    printf("%s\t", ances.ancestorsList[i]->firstname);
+                }
+            }
+            printf("\n");
+            free(ances.ancestorsList);
+            break;
+        case 3:
+            printf("Entrer un nombre n: ");
+            scanf(" %d", &n);
+            if(n >= pop.capacity) printf("Cet nombre est hors du champ de notre base de données !!\n");
+            else
+            {
+                for(int i = 0; i < n; i++)
+                {
+                    if(pop.popDatas[i])
+                    printf("ID: %d\t Nom: %s\t Prénom: %s\n", pop.popDatas[i]->id, pop.popDatas[i]->lastname,pop.popDatas[i]->firstname);   
+                }
+            }
+            break;
+        case 4:
+            /* code */
+            break;
+
+        default:
+            break;
+    }
+}
 int main ()
 {
-    // test de la fonction lecture de fichier
-    char path[] = "../ressources/40.csv";
-    population pop = read_csv(path);
-/*
-    for(int i = 0; i < pop.capacity; i++)
-    {
-        if(pop.popDatas[i])
-           printf("my id: %d\t father_id: %d\t mother_id:%d\n", pop.popDatas[i]->id, pop.popDatas[i]->father_id,pop.popDatas[i]->mother_id);
-           //printf("%s\t%d\n",pop.popDatas[i]->birthzipcode, pop.popDatas[i]->id);
-        else
-        printf("\t%d\n", 0);
-    }
-*/
-    /*Petit probleme au niveau de birthzipcode, je n'arrive pas à les print.  */
+  /// --------------------------------- MENU ------------------------------------------------///
+   char path[] = "../ressources/40.csv";
+   menu(path);
 
-//Test the function getPerson
-/*for(int i = 0; i < pop.capacity ;i++)
-{    Person* p = getPerson(pop, i);
-    if(p)
-    {
-        printf("%d\t",p->id);
-    }
-    else
-      printf("!%d\t",i);
-}
-printf("\nAll element in the list: \n");
-
-for(int i = 0; i < pop.capacity; i++)
-    {
-        if(pop.popDatas[i])
-           printf("%d\t", pop.popDatas[i]->id);
-        else
-        printf("%d\t", 0);
-    }
-printf("\n");
-*/
-
-/*
-    // test de la fonction fratrie
- 
-    fratrie frat = findFratrie(pop, getPerson(pop, 24));
-    // printf fratrie ===> VALIDE !!!
-    printf("the size of fratList : %d Capacity: %d\n",frat.size, frat.capacity);
-    for(int i = 0; i < frat.capacity; i++)
-    {
-        if(frat.fratrieList[i]) 
-           printf("Mon id: %d et l'id du frère ou de la soeur: %d\n",getPerson(pop, 24)->id, frat.fratrieList[i]->id);
-    }
-*/
-
-    // Link population to set up parent pointers
-    linkPopulation(pop);
-
-    // Find ancestors for a specific person, in this case, person with ID 11
-    ancestors ances = ancestorsPersons(pop, pop.popDatas[1]);
-
-    // Print the IDs of the ancestors
-    printf("Les ids de la descendance de %d sont: \n", 1);
-    for (int i = 0; i < ances.ancestorsSize; i++) {
-        if (ances.ancestorsList[i] != NULL) { // Ensure we don't dereference null pointers
-            printf("id: %d\n", ances.ancestorsList[i]->id);
-        }
-    }
-
-    // Free allocated memory for ancestors
-    free(ances.ancestorsList);
 
 
     return EXIT_SUCCESS;

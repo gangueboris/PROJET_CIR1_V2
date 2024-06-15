@@ -28,3 +28,10 @@ To do:
 il faut que j'implement une fonction de recherche dans la table de hachage
 
 pour ajouter les personsau tableau, je dois faire un level order traversal.
+
+--------------------------------------------------------------------------------------------------------------------------------------
+** Idée pour le menu :
+1. Afficher la fratrie d'une personne P
+2. Afficher toute la géneration d'une personne P
+3. Afficher tout les n premières personnes de la population
+4. 
