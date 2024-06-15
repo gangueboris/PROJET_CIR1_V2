@@ -43,27 +43,28 @@ for(int i = 0; i < pop.capacity; i++)
 printf("\n");
 */
 
+/*
     // test de la fonction fratrie
  
-    fratrie frat = findFratrie(pop, getPerson(pop, 7));
+    fratrie frat = findFratrie(pop, getPerson(pop, 24));
     // printf fratrie ===> VALIDE !!!
     printf("the size of fratList : %d Capacity: %d\n",frat.size, frat.capacity);
     for(int i = 0; i < frat.capacity; i++)
     {
         if(frat.fratrieList[i]) 
-           printf("Mon id: %d et l'id du frère ou de la soeur: %d\n",getPerson(pop, 27)->id, frat.fratrieList[i]->id);
+           printf("Mon id: %d et l'id du frère ou de la soeur: %d\n",getPerson(pop, 24)->id, frat.fratrieList[i]->id);
     }
+*/
 
-/*
     // Link population to set up parent pointers
     linkPopulation(pop);
 
     // Find ancestors for a specific person, in this case, person with ID 11
-    ancestors ances = ancestorsPersons(pop, pop.popDatas[5]);
+    ancestors ances = ancestorsPersons(pop, pop.popDatas[1]);
 
     // Print the IDs of the ancestors
-    printf("Les ids de la descendance de %d sont: \n", 5);
-    for (int i = 0; i < ances.ancestorsSize; i++) {
+    printf("Les ids de la descendance de %d sont: \n", 1);
+    for (int i = 1; i < ances.ancestorsSize; i++) {
         if (ances.ancestorsList[i] != NULL) { // Ensure we don't dereference null pointers
             printf("id: %d\n", ances.ancestorsList[i]->id);
         }
@@ -72,6 +73,6 @@ printf("\n");
     // Free allocated memory for ancestors
     free(ances.ancestorsList);
 
-*/
+
     return EXIT_SUCCESS;
 }

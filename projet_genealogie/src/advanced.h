@@ -23,7 +23,7 @@ fratrie findFratrie(population pop, Person* p);
 
 // Ancêtres
 ancestors ancestorsPersons(population pop, Person* p);
-
+void addAncestors(population pop, Person* person, ancestors* ances);
 // prototypes de la file
 typedef struct queue
 {

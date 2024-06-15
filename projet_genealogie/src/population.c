@@ -119,10 +119,10 @@ void linkPopulation(population pop)
         int father_id = pop.popDatas[i]->father_id;
         int mother_id = pop.popDatas[i]->mother_id;
 
-        // If father_id or mother_id is 0, it means unknown; the person points to itself.
+        /*Il est dit dans le sujet que si les parents d'une personne sont inconnus les pointers parents pointeront sur la personne inconnu*/
         if (father_id == 0)
         {
-            pop.popDatas[i]->p_father = pop.popDatas[i];
+            pop.popDatas[i]->p_father = pop.popDatas[hash_O(pop, 0)];
         }
         else
         {
@@ -131,7 +131,7 @@ void linkPopulation(population pop)
 
         if (mother_id == 0)
         {
-            pop.popDatas[i]->p_mother = pop.popDatas[i];
+            pop.popDatas[i]->p_mother = pop.popDatas[hash_O(pop, 0)];
         }
         else
         {

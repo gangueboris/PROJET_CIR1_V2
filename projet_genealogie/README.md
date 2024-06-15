@@ -26,3 +26,5 @@ To do:
 . la descendance d'une personne
 
 il faut que j'implement une fonction de recherche dans la table de hachage
+
+pour ajouter les personsau tableau, je dois faire un level order traversal.
