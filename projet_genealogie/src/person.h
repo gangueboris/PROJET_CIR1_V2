@@ -14,7 +14,7 @@ typedef struct person {
     struct person *p_mother;
 } Person;
 
-// Déclaration d'une persone
+// Déclaration de la fonction iniPerson
 Person *initPerson(char* csvline);
 
 #endif
