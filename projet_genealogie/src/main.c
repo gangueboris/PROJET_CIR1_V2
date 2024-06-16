@@ -4,13 +4,13 @@
 #include "population.h"
 #include "advanced.h"
 #define PATH_SIZE 50
-// test de la fonction 
+
+
 void menu (char* filename)
 {
     char path[PATH_SIZE];
     strcpy(path, filename);
     population pop = read_csv(path);
-
 
     int option;
     printf("1. Rechercher la fratrie d'une personne par ID\n");
@@ -25,58 +25,64 @@ void menu (char* filename)
     {
         int id, n;
         case 1:
-             printf("Entrer l'ID de la personne: ");
-             scanf("%d", &id);
-             printf("\n");
-           // test de la fonction fratrie
+            printf("Entrer l'ID de la personne: ");
+            scanf("%d", &id);
+            printf("\n");
+
+            // Test de la fonction fratrie
             fratrie frat = findFratrie(pop, getPerson(pop, id));
-            printf("Voici les des frères et soeurs de ' %s ' :\n", pop.popDatas[hash_O(pop, id)]->firstname);
-            for(int i = 0; i < frat.capacity; i++)
-            {
-                if(frat.fratrieList[i]) 
-                printf("%s \t",frat.fratrieList[i]->firstname);
+            printf("Voici les frères et soeurs de '%s' :\n", pop.popDatas[hash_O(pop, id)]->firstname);
+            for (int i = 0; i < frat.size; i++) {
+                if (frat.fratrieList[i]) {
+                    printf("%s\t", frat.fratrieList[i]->firstname);
+                }
             }
             printf("\n");
+
+            // Libérer la mémoire de la fratrie
+            free(frat.fratrieList);
             break;
         case 2:
-             printf("Entrer l'ID de la personne: ");
-             scanf("%d", &id);
-             printf("\n");
+            printf("Entrer l'ID de la personne: ");
+            scanf("%d", &id);
+            printf("\n");
 
-             linkPopulation(pop);
-             ancestors ances = ancestorsPersons(pop, pop.popDatas[hash_O(pop, id)]);
-             printf("Voici toute la génération de ' %s' :\n",pop.popDatas[hash_O(pop, id)]->firstname);
-             for (int i = 1; i < ances.ancestorsSize; i++) 
-             {
-                if (ances.ancestorsList[i] != NULL) 
-                { 
+            linkPopulation(pop); // Liaison des personnes à leurs parents
+            ancestors ances = ancestorsPersons(pop, pop.popDatas[hash_O(pop, id)]);
+            printf("Voici toute la génération de '%s' :\n", pop.popDatas[hash_O(pop, id)]->firstname);
+            for (int i = 1; i < ances.ancestorsSize; i++) {
+                if (ances.ancestorsList[i] != NULL) {
                     printf("%s\t", ances.ancestorsList[i]->firstname);
                 }
             }
             printf("\n");
+
+            // Libérer la mémoire des ancêtres
             free(ances.ancestorsList);
             break;
         case 3:
             printf("Entrer un nombre n: ");
             scanf(" %d", &n);
-            if(n >= pop.capacity) printf("Cet nombre est hors du champ de notre base de données !!\n");
-            else
-            {
-                for(int i = 0; i < n; i++)
-                {
-                    if(pop.popDatas[i])
-                    printf("ID: %d\t Nom: %s\t Prénom: %s\n", pop.popDatas[i]->id, pop.popDatas[i]->lastname,pop.popDatas[i]->firstname);   
+            if (n >= pop.capacity) {
+                printf("Ce nombre est hors du champ de notre base de données !!\n");
+            } else {
+                for (int i = 0; i < n; i++) {
+                    if (pop.popDatas[i]) {
+                        printf("ID: %d\t Nom: %s\t Prénom: %s\n", pop.popDatas[i]->id, pop.popDatas[i]->lastname, pop.popDatas[i]->firstname);
+                    }
                 }
             }
             break;
         case 4:
-            /* code */
+            // Code pour l'option 4 (non implémenté dans cet exemple)
             break;
-
         default:
+            printf("Option invalide.\n");
             break;
     }
+    freePersons(pop.popDatas, pop.capacity); // libération de la mémoire alloué pour la population
 }
+
 int main ()
 {
   /// --------------------------------- MENU ------------------------------------------------///
@@ -84,6 +90,6 @@ int main ()
    menu(path);
 
 
-
+   
     return EXIT_SUCCESS;
 }

@@ -4,7 +4,7 @@
 #include "person.h"
 #include "population.h"
 
-//Fratries
+//Définition de la structure Fratries
 typedef struct fratrie
 {
     int size;
@@ -12,6 +12,7 @@ typedef struct fratrie
     Person** fratrieList;
 }fratrie;
 
+// Définition de la sturture ancestors
 typedef struct ancestors
 {
     int ancestorsSize;
@@ -19,13 +20,13 @@ typedef struct ancestors
     Person** ancestorsList;
 }ancestors;
 
+// fonction permettant de retrouver la fratrie d'une personne dans la population
 fratrie findFratrie(population pop, Person* p);
 
-// Ancêtres
+// fonction permettant de les ancêtres d'une personne
 ancestors ancestorsPersons(population pop, Person* p);
-void addAncestors(population pop, Person* person, ancestors* ances);
 
-// prototypes de la file
+// struture de la structure de données: file
 typedef struct queue
 {
     int top;
@@ -34,6 +35,7 @@ typedef struct queue
     int* array;
 }queue;
 
+// fonctions associées à la structure de données : file
 queue * new_queue(int q_size); 
 void enqueue(queue*, int val); 
 int dequeue(queue *); 

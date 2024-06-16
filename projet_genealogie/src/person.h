@@ -3,7 +3,6 @@
 
 typedef struct person {
     int id;
-    int key;
     int father_id;
     int mother_id;
     char lastname[20]; // nom de famille

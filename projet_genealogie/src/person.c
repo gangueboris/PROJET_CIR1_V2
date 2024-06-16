@@ -5,7 +5,7 @@
 #include "population.h"
 
 
-Person *initPerson(char *csvline)
+Person* initPerson(char *csvline)
 {
     Person* p = malloc(sizeof(Person));
     if (p == NULL) // Savoir si l'allocation a reussi ou pas
