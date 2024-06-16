@@ -153,8 +153,10 @@ int count_firstname(population pop, Person* p)
     {
         if (pop.popDatas[i]) // toujours s'assurer la position est indexable
         {
-           if(p->id != pop.popDatas[i]->id && strcmp(p->firstname, pop.popDatas[i]->firstname)) 
-            count++;
+           if(p->id != pop.popDatas[i]->id && strcmp(p->firstname, pop.popDatas[i]->firstname) == 0) 
+            {
+                count++;
+            }
         }
         
     }

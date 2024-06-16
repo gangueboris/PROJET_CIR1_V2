@@ -94,7 +94,7 @@ void menu (char* filename)
 int main ()
 {
   /// --------------------------------- MENU ------------------------------------------------///
-   char path[] = "../ressources/60000.csv";
+   char path[] = "../ressources/200.csv";
    menu(path);
 
 

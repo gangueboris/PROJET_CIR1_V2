@@ -2,10 +2,10 @@
 TARGET = program
 
 # Fichiers source
-SOURCES = advanced.c person.c population.c main.c
+SOURCES = advanced.c person.c population.c htmlexport.c main.c 
 
 # Fichiers d'en-tête
-HEADERS = advanced.h person.h population.h
+HEADERS = advanced.h person.h population.h htmlexport.h 
 
 # Compilateur
 CC = gcc

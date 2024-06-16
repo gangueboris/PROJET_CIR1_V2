@@ -30,3 +30,6 @@ Module 5 (Menu):
 
 -freeing
 - pop->popDatas, q(queue)[Done], frat.fratrieList,  ances.ancestorsList 
+
+Questions:
+ A quoi me sert exactement le buffer dans la fonction titreHTLMPerson() ?!
