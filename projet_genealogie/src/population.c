@@ -1,6 +1,7 @@
 #include "population.h"
 #include "stdio.h"
 #include "stdlib.h"
+#include "string.h"
 #define LINE_LENGTH 100
 #define CAPACITY 100
 
@@ -93,7 +94,7 @@ population read_csv(const char* filename) {
             pop.popDatas = realloc(pop.popDatas, 2 * pop.capacity * sizeof(Person*));
             if(!pop.popDatas) printf("Echec de la reallocation de la mémoire !!\n");
             pop.capacity *= 2;
-            printf("Mémoire realloué avec succès !! \n");
+            printf("Mémoire realloué avec succès pour pop.popDatas !! \n");
         }
         insert(&pop, hash_O(pop, p->id), p); // insérer la personne dans la table de hachage avec son indexable
     }
@@ -143,4 +144,19 @@ void freePersons(Person** p, int capacity)
         }
     }
     free(p); // Libérer le tableau des personnes
+}
+
+int count_firstname(population pop, Person* p)
+{
+    int count = 0;
+    for (int i = 0; i < pop.capacity; i++)
+    {
+        if (pop.popDatas[i]) // toujours s'assurer la position est indexable
+        {
+           if(p->id != pop.popDatas[i]->id && strcmp(p->firstname, pop.popDatas[i]->firstname)) 
+            count++;
+        }
+        
+    }
+    return count;
 }

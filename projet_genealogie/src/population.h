@@ -33,4 +33,7 @@ void linkPopulation(population p);
 
 // fonction pour libérer la mémoire pour chaque personne et le tableau de personne
 void freePersons(Person** p, int capacity);
+
+// fonction pour compter le nombre de personne qui ont le même prénom dans la population
+int count_firstname(population pop, Person* p);
 #endif

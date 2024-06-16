@@ -17,6 +17,7 @@ void menu (char* filename)
     printf("2. Rechercher toute la géneration d'une personne par ID\n");
     printf("3. Rechercher les n premières personnes de la population par ID\n");
     printf("4. Rechercher la famille: NOM_DE_FAMILLE\n");
+    printf("5. Compter le nombre de personne qui ont le même prénom qu'une personne\n");
     printf("\nChoississez une option: ");
     scanf(" %d", &option);
     printf("\n");
@@ -74,7 +75,14 @@ void menu (char* filename)
             }
             break;
         case 4:
-            // Code pour l'option 4 (non implémenté dans cet exemple)
+            // Option 4 pas encore implémenté !!
+            break;
+        case 5:
+            printf("Entrer le nom de l'ID de la personne: ");
+            scanf(" %d", &id);
+            Person* p = getPerson(pop, id);
+            int count = count_firstname(pop, p);
+            printf("Le nombre de personnes qui portent le prénom de %s est: %d\n", p->firstname, count);
             break;
         default:
             printf("Option invalide.\n");
@@ -86,7 +94,7 @@ void menu (char* filename)
 int main ()
 {
   /// --------------------------------- MENU ------------------------------------------------///
-   char path[] = "../ressources/40.csv";
+   char path[] = "../ressources/60000.csv";
    menu(path);
 
 
