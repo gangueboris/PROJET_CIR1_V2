@@ -5,6 +5,20 @@
 #include "htmlexport.h"
 #include "person.h"
 #include "population.h"
+#include "advanced.h"
+
+const char* htmlTop = "<!DOCTYPE html>\n"
+                    "<html lang=\"en\">\n"
+                    "<head>\n"
+                    "    <meta charset=\"UTF-8\">\n"
+                    "    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n"
+                    "    <link rel=\"stylesheet\" href=\"../others/style.css\">\n"
+                    "    <title>Projet CIR 2024</title>\n"
+                    "</head>\n"
+                    "<body>\n";
+
+const  char* htmlEnd = "</body>\n"
+                       "</html>\n";
 
 //implémentation de la fonction pour créer un titre HTML pour une personne
 int titreHTMLPerson(char *buffer, Person *p){
@@ -29,20 +43,7 @@ int fichePath(char *buffer, Person *p){
 void exportPersonToHTML(const population pop, Person *p, char *path)
 {
     // définition du header de la page HTML
-    char* htmlTop = "<!DOCTYPE html>\n"
-                "<html lang=\"en\">\n"
-                "<head>\n"
-                "    <meta charset=\"UTF-8\">\n"
-                "    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n"
-                "    <link rel=\"stylesheet\" href=\"../others/style.css\">\n"
-                "    <title>Projet CIR 2024</title>\n"
-                "</head>\n"
-                "<body>\n";
 
-char* htmlEnd = "</body>\n"
-                "</html>\n";
-
-    
     // Création / ouverture du fichier [id_person]-fiche.html
     FILE *file = fopen(path, "w");
     
@@ -57,9 +58,11 @@ char* htmlEnd = "</body>\n"
     
     // Ecriture du titre
     char buffer[BUFFER_SIZE];
-    titreHTMLPerson(buffer, p);
-    dateHTMLPerson(buffer + strlen(buffer), p);
-    villeHTMLPerson(buffer + strlen(buffer), p);
+
+    printAncestorsToHTML(buffer,pop,p);
+    //titreHTMLPerson(buffer, p);
+    //dateHTMLPerson(buffer + strlen(buffer), p);
+   // villeHTMLPerson(buffer + strlen(buffer), p);
    
     // Ajout du titre h2 dans le fichier HTML
     fprintf(file, "%s", buffer);
@@ -70,3 +73,31 @@ char* htmlEnd = "</body>\n"
     // fermeture du fichier
     fclose(file);
 }
+
+
+
+int printAncestorsToHTML(char *buffer, const population pop, Person *p) {
+    ancestors ances = ancestorsPersons(pop, p);
+    // prendre la taille du buffer contenant le header du html
+    int offset = strlen(buffer);
+   
+    
+    int generation = 1;
+    offset += sprintf(buffer + offset, "<div class=\"generation-%d\"><h2>%s, %s</h2></div>\n", 0, ances.ancestorsList[0]->firstname, ances.ancestorsList[0]->lastname);
+    for (int i = 1; i < ances.ancestorsSize; i++) 
+    {
+        Person* p = ances.ancestorsList[i];
+        //addPersonToBuffer(p, generation,strlen(buffer), buffer);
+        offset += sprintf(buffer + offset, "<div class=\"generation-%d\"><h2>%s, %s</h2></div>\n", generation, p->firstname, p->lastname);
+        //printf("<div class=\"generation-%d\"><h2>%s, %s</h2></div>\n", generation, ances.ancestorsList[i]->firstname, ances.ancestorsList[i]->lastname);
+    
+        // passe à une autre génération
+        if (i % 2 == 1) {
+            generation++;
+        }
+    }
+
+    free(ances.ancestorsList);
+    return offset;
+}
+

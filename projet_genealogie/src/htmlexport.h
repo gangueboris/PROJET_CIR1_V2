@@ -3,7 +3,7 @@
 
 #include "person.h"
 #include "population.h"
-#define BUFFER_SIZE 1024
+#define BUFFER_SIZE 3000
 
 // Fonction pour créer un titre HTML pour une personne
 int titreHTMLPerson(char *buffer, Person *p);

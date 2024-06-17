@@ -4,7 +4,7 @@
 #include "population.h"
 #include "advanced.h"
 #include "htmlexport.h"
-#define PATH_SIZE 255
+#define PATH_SIZE 2500
 
 
 void menu (char* filename)
@@ -102,16 +102,16 @@ int main ()
     linkPopulation(pop);
     
     char buffer[PATH_SIZE];
-    for (int i = 0; i < pop.capacity;i++)
+    const int i = 2;
+    
+    if(pop.popDatas[i])
     {
-        if(pop.popDatas[i])
-        {
-            char* exportPath = "../export/";
-            int n = sprintf(buffer, exportPath);// écriture du chemin dans le buffer
-            n = fichePath(buffer+n, pop.popDatas[i]); // concaténer dans le buffer le [id_person]-fiche.html
-            
-            exportPersonToHTML(pop, pop.popDatas[i], buffer);
-        }
+        char* exportPath = "../export/";
+        int n = sprintf(buffer, exportPath);// écriture du chemin dans le buffer
+        n = fichePath(buffer+n, pop.popDatas[hash_O(pop, i)]); // concaténer dans le buffer le [id_person]-fiche.html
+        
+        exportPersonToHTML(pop, pop.popDatas[i], buffer);
     }
+    
     return EXIT_SUCCESS;
 }

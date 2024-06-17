@@ -33,6 +33,7 @@ $(TARGET): $(OBJECTS)
 # Règle pour nettoyer les fichiers générés
 clean:
 	rm -f $(OBJECTS) $(TARGET)
+	rm -f ../export/*.html
 
 # Règle pour tout nettoyer
 distclean: clean
