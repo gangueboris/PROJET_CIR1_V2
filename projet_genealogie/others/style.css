@@ -1,0 +1,24 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+body
+{
+    background-color: beige;
+}
+
+div
+{
+    text-align: center;
+    width: 15%;
+    height: 25%;
+    margin: auto;
+    position: absolute;
+    top: 0; bottom: 0; left: 0; right: 0;
+    background-color: bisque;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    overflow: auto;
+    border-radius: 25px;
+}

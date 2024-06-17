@@ -26,7 +26,8 @@ void exportPersonToHTML(const population pop, Person *p, char *path)
                 "<head>\n"
                 "    <meta charset=\"UTF-8\">\n"
                 "    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n"
-                "    <title></title>\n"
+                "    <link rel=\"stylesheet\" href=\"../others/style.css\">\n"
+                "    <title>Projet CIR 2024</title>\n"
                 "</head>\n"
                 "<body>\n";
 
@@ -48,9 +49,8 @@ char* htmlEnd = "</body>\n"
     
     // Ecriture du titre
     char buffer[BUFFER_SIZE];
-    int n = sprintf(buffer, "<h2>%s, %s</h2>\n", p->lastname, p->firstname); // Use appropriate format for title
-    printf("%s\t%d\n", buffer,n);
-    
+    int n = sprintf(buffer, "\t<h2>%s, %s</h2>\n", p->lastname, p->firstname); // Use appropriate format for title
+   
     // Ajout du titre h2 dans le fichier HTML
     fprintf(file, "%s", buffer);
 
