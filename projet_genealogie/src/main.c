@@ -3,7 +3,8 @@
 #include <string.h>
 #include "population.h"
 #include "advanced.h"
-#define PATH_SIZE 50
+#include "htmlexport.h"
+#define PATH_SIZE 255
 
 
 void menu (char* filename)
@@ -94,10 +95,34 @@ void menu (char* filename)
 int main ()
 {
   /// --------------------------------- MENU ------------------------------------------------///
-   char path[] = "../ressources/200.csv";
-   menu(path);
-
-
+   //char path[] = "../ressources/200.csv";
+   //menu(path);
+   /*
+    char buffer[255];
+    Person p;
+    strcpy(p.firstname, "Boris");
+    strcpy(p.lastname, "GANGUE");
+    int n = titreHTMLPerson(buffer, &p);
+    printf("%s\t%d\n", buffer, n);
+    */
+    population pop = popInitialization();
+    char buffer[PATH_SIZE];
    
+    // NB/ ceci est un test, par la suite, on pourra tester sur des personnes contenus dans la population
+    Person p;
+    strcpy(p.firstname, "Boris");
+    strcpy(p.lastname, "GANGUE");
+    p.id = 7;
+    
+    // définition du chemin vers le répertoire de sauvergarde
+    char* exportPath = "../export/";
+    int n = sprintf(buffer, exportPath);// écriture du chemin dans le buffer
+    n = fichePath(buffer+n, &p); // concaténer dans le buffer le [id_person]-fiche.html
+    
+    exportPersonToHTML(pop, &p, buffer);
+   
+
+
+    freePersons(pop.popDatas, pop.capacity);
     return EXIT_SUCCESS;
 }

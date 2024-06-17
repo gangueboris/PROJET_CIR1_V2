@@ -21,18 +21,19 @@ int fichePath(char *buffer, Person *p)
 void exportPersonToHTML(const population pop, Person *p, char *path)
 {
     // définition du header de la page HTML
-    char* htmlTop = "<!DOCTYPE html> \
-<html lang=\"en\"> \
-<head> \
-    <meta charset=\"UTF-8\"> \
-    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"> \
-    <title></title> \
-</head> \
-<body>\n";
+    char* htmlTop = "<!DOCTYPE html>\n"
+                "<html lang=\"en\">\n"
+                "<head>\n"
+                "    <meta charset=\"UTF-8\">\n"
+                "    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n"
+                "    <title></title>\n"
+                "</head>\n"
+                "<body>\n";
 
-    char* htmlEnd = "</body>\
-</html>";
+char* htmlEnd = "</body>\n"
+                "</html>\n";
 
+    
     // Création / ouverture du fichier [id_person]-fiche.html
     FILE *file = fopen(path, "w");
     
@@ -48,7 +49,7 @@ void exportPersonToHTML(const population pop, Person *p, char *path)
     // Ecriture du titre
     char buffer[BUFFER_SIZE];
     int n = sprintf(buffer, "<h2>%s, %s</h2>\n", p->lastname, p->firstname); // Use appropriate format for title
-    printf("%s\t%d\n", buffer, n);
+    printf("%s\t%d\n", buffer,n);
     
     // Ajout du titre h2 dans le fichier HTML
     fprintf(file, "%s", buffer);
