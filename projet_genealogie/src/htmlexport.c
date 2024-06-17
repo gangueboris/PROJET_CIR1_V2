@@ -78,26 +78,41 @@ void exportPersonToHTML(const population pop, Person *p, char *path)
 
 int printAncestorsToHTML(char *buffer, const population pop, Person *p) {
     ancestors ances = ancestorsPersons(pop, p);
-    // prendre la taille du buffer contenant le header du html
     int offset = strlen(buffer);
-   
+
+    //offset += sprintf(buffer + offset, "<link rel=\"stylesheet\" href=\"styles2.css\">\n");
+    offset += sprintf(buffer + offset, "<div class=\"container\">\n");
     
-    int generation = 1;
-    offset += sprintf(buffer + offset, "<div class=\"generation-%d\"><h2>%s, %s</h2></div>\n", 0, ances.ancestorsList[0]->firstname, ances.ancestorsList[0]->lastname);
-    for (int i = 1; i < ances.ancestorsSize; i++) 
-    {
-        Person* p = ances.ancestorsList[i];
-        //addPersonToBuffer(p, generation,strlen(buffer), buffer);
-        offset += sprintf(buffer + offset, "<div class=\"generation-%d\"><h2>%s, %s</h2></div>\n", generation, p->firstname, p->lastname);
-        //printf("<div class=\"generation-%d\"><h2>%s, %s</h2></div>\n", generation, ances.ancestorsList[i]->firstname, ances.ancestorsList[i]->lastname);
-    
-        // passe à une autre génération
-        if (i % 2 == 1) {
-            generation++;
+    // Niveau 1 : Personne principale
+    offset += sprintf(buffer + offset, "<div class=\"level-1 rectangle\">\n");
+    offset += sprintf(buffer + offset, "<h2>%s %s</h2>\n", ances.ancestorsList[0]->firstname, ances.ancestorsList[0]->lastname);
+    offset += sprintf(buffer + offset, "<p>%d / %d / %d</p>\n", ances.ancestorsList[0]->birthday, ances.ancestorsList[0]->birthmonth, ances.ancestorsList[0]->birthyear);
+    offset += sprintf(buffer + offset, "<p>%s</p>\n", ances.ancestorsList[0]->birthzipcode);
+    offset += sprintf(buffer + offset, "</div>\n");
+
+    // Niveau 2 : Parents
+    offset += sprintf(buffer + offset, "<ol class=\"level-2-wrapper\">\n");
+    for (int i = 1; i < ances.ancestorsSize && i < 3; i++) {
+        Person* parent = ances.ancestorsList[i];
+        offset += sprintf(buffer + offset, "<li>\n");
+        offset += sprintf(buffer + offset, "<h2 class=\"level-2 rectangle\">%s %s</h2>\n", parent->firstname, parent->lastname);
+        
+        // Niveau 3 : Grands-parents
+        offset += sprintf(buffer + offset, "<ol class=\"level-3-wrapper\">\n");
+        for (int j = 2 * i + 1; j < 2 * i + 3 && j < ances.ancestorsSize; j++) {
+            Person* grandparent = ances.ancestorsList[j];
+            offset += sprintf(buffer + offset, "<li>\n");
+            offset += sprintf(buffer + offset, "<h3 class=\"level-3 rectangle\">%s<br>%s</h3>\n", grandparent->firstname, grandparent->lastname);
+            offset += sprintf(buffer + offset, "</li>\n");
         }
+        offset += sprintf(buffer + offset, "</ol>\n");
+        
+        offset += sprintf(buffer + offset, "</li>\n");
     }
+    offset += sprintf(buffer + offset, "</ol>\n");
+
+    offset += sprintf(buffer + offset, "</div>\n");
 
     free(ances.ancestorsList);
     return offset;
 }
-

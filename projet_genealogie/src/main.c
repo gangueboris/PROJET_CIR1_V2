@@ -102,7 +102,7 @@ int main ()
     linkPopulation(pop);
     
     char buffer[PATH_SIZE];
-    const int i = 2;
+    const int i = 10;
     
     if(pop.popDatas[i])
     {
