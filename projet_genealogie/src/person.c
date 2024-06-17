@@ -3,7 +3,7 @@
 #include <string.h>
 #include "person.h"
 #include "population.h"
-
+#define CITY_SIZE 255
 
 Person* initPerson(char *csvline)
 {
@@ -37,8 +37,20 @@ Person* initPerson(char *csvline)
     }
 
     token = strtok(NULL, ",");
-    if (token && strcmp(token, "-") != 0) { 
-        char* dateToken = strtok(token, "/");
+
+    char dateAllToken[CITY_SIZE];
+    strcpy(dateAllToken, token);// copie de la chaine de charactère actuelle pour la décomposer plustard
+    
+    token = strtok(NULL, ","); // passer directement à la ville
+    if (token) 
+    {
+        strncpy(p->birthzipcode, token, sizeof(p->birthzipcode) - 1); // initialisation de l'adresse de naissance de la person
+        p->birthzipcode[sizeof(p->birthzipcode) - 1] = '\0';
+    }
+    //NB: le strtok ne travaille qu'avec un seul caractère séparateur à la fois
+    // Là maintenant, on s'occupe décomposer la date.
+    if (dateAllToken && strcmp(dateAllToken, "-") != 0) { 
+        char* dateToken = strtok(dateAllToken, "/");
         if (dateToken) p->birthday = atoi(dateToken); // initialisation du jour de naissance de la person
 
         dateToken = strtok(NULL, "/");
@@ -53,12 +65,6 @@ Person* initPerson(char *csvline)
         p->birthyear = 0;
     }
 
-    token = strtok(NULL, ",");
-    if (token) 
-    {
-        strncpy(p->birthzipcode, token, sizeof(p->birthzipcode) - 1); // initialisation de l'adresse de naissance de la person
-        p->birthzipcode[sizeof(p->birthzipcode) - 1] = '\0';
-    }
 
     // Initialization of parents to NULL
     p->p_father = NULL;

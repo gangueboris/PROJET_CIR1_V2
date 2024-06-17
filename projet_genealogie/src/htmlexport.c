@@ -7,14 +7,22 @@
 #include "population.h"
 
 //implémentation de la fonction pour créer un titre HTML pour une personne
-int titreHTMLPerson(char *buffer, Person *p)
-{
+int titreHTMLPerson(char *buffer, Person *p){
     return sprintf(buffer, "\n\t<h2>%s, %s</h2>\n", p->firstname, p->lastname);
 }
 
+// Fonction pour écrire la date dans le buffer
+void dateHTMLPerson(char *buffer, Person *p){
+    sprintf(buffer, "\t<p>%d / %d / %d</p>\n", p->birthday, p->birthmonth, p->birthyear);
+}
+
+// Fonction pour écrire la ville dans le buffer
+void villeHTMLPerson(char *buffer, Person *p){
+    sprintf(buffer, "\t<p>%s</p>", p->birthzipcode);
+}
+
 // implémentation de la fonction pour écrire le chemin du fichier dans le buffer
-int fichePath(char *buffer, Person *p)
-{
+int fichePath(char *buffer, Person *p){
    return sprintf(buffer, "%d-fiche.html", p->id);
 }
 
@@ -49,7 +57,9 @@ char* htmlEnd = "</body>\n"
     
     // Ecriture du titre
     char buffer[BUFFER_SIZE];
-    int n = sprintf(buffer, "\t<h2>%s, %s</h2>\n", p->lastname, p->firstname); // Use appropriate format for title
+    titreHTMLPerson(buffer, p);
+    dateHTMLPerson(buffer + strlen(buffer), p);
+    villeHTMLPerson(buffer + strlen(buffer), p);
    
     // Ajout du titre h2 dans le fichier HTML
     fprintf(file, "%s", buffer);

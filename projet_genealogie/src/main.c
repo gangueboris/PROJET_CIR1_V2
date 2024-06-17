@@ -97,32 +97,21 @@ int main ()
   /// --------------------------------- MENU ------------------------------------------------///
    //char path[] = "../ressources/200.csv";
    //menu(path);
-   /*
-    char buffer[255];
-    Person p;
-    strcpy(p.firstname, "Boris");
-    strcpy(p.lastname, "GANGUE");
-    int n = titreHTMLPerson(buffer, &p);
-    printf("%s\t%d\n", buffer, n);
-    */
-    population pop = popInitialization();
+
+    population pop = read_csv("../ressources/40.csv");
+    linkPopulation(pop);
+    
     char buffer[PATH_SIZE];
-   
-    // NB/ ceci est un test, par la suite, on pourra tester sur des personnes contenus dans la population
-    Person p;
-    strcpy(p.firstname, "Boris");
-    strcpy(p.lastname, "GANGUE");
-    p.id = 7;
-    
-    // définition du chemin vers le répertoire de sauvergarde
-    char* exportPath = "../export/";
-    int n = sprintf(buffer, exportPath);// écriture du chemin dans le buffer
-    n = fichePath(buffer+n, &p); // concaténer dans le buffer le [id_person]-fiche.html
-    
-    exportPersonToHTML(pop, &p, buffer);
-   
-
-
-    freePersons(pop.popDatas, pop.capacity);
+    for (int i = 0; i < pop.capacity;i++)
+    {
+        if(pop.popDatas[i])
+        {
+            char* exportPath = "../export/";
+            int n = sprintf(buffer, exportPath);// écriture du chemin dans le buffer
+            n = fichePath(buffer+n, pop.popDatas[i]); // concaténer dans le buffer le [id_person]-fiche.html
+            
+            exportPersonToHTML(pop, pop.popDatas[i], buffer);
+        }
+    }
     return EXIT_SUCCESS;
 }
