@@ -54,7 +54,7 @@ char* htmlEnd = "</body>\n"
     // Ajout du titre h2 dans le fichier HTML
     fprintf(file, "%s", buffer);
 
-    // Ajout du reste de content de la page HTML
+    // Ajout du reste du content de la page HTML
     fprintf(file, "%s", htmlEnd);
 
     // fermeture du fichier
