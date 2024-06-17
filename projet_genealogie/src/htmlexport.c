@@ -60,10 +60,7 @@ void exportPersonToHTML(const population pop, Person *p, char *path)
     char buffer[BUFFER_SIZE];
 
     printAncestorsToHTML(buffer,pop,p);
-    //titreHTMLPerson(buffer, p);
-    //dateHTMLPerson(buffer + strlen(buffer), p);
-   // villeHTMLPerson(buffer + strlen(buffer), p);
-   
+
     // Ajout du titre h2 dans le fichier HTML
     fprintf(file, "%s", buffer);
 
@@ -76,18 +73,23 @@ void exportPersonToHTML(const population pop, Person *p, char *path)
 
 
 
-int printAncestorsToHTML(char *buffer, const population pop, Person *p) {
+int printAncestorsToHTML(char *buffer, const population pop, Person *p) 
+{
+    // récupérer les ancêtres de la personne
     ancestors ances = ancestorsPersons(pop, p);
-    int offset = strlen(buffer);
+    int offset = strlen(buffer);// nbre de charactères écrits
+    
+    /*---- Dans cette partie, nous écrivons du script html en C -----*/
 
     //offset += sprintf(buffer + offset, "<link rel=\"stylesheet\" href=\"styles2.css\">\n");
+    offset += sprintf(buffer + offset, "<h1 class =\"titre-h1\">ARBRE GENEALOGIQUE</h1>\n");
     offset += sprintf(buffer + offset, "<div class=\"container\">\n");
     
     // Niveau 1 : Personne principale
     offset += sprintf(buffer + offset, "<div class=\"level-1 rectangle\">\n");
     offset += sprintf(buffer + offset, "<h2>%s %s</h2>\n", ances.ancestorsList[0]->firstname, ances.ancestorsList[0]->lastname);
-    offset += sprintf(buffer + offset, "<p>%d / %d / %d</p>\n", ances.ancestorsList[0]->birthday, ances.ancestorsList[0]->birthmonth, ances.ancestorsList[0]->birthyear);
-    offset += sprintf(buffer + offset, "<p>%s</p>\n", ances.ancestorsList[0]->birthzipcode);
+    //offset += sprintf(buffer + offset, "<p>%d / %d / %d</p>\n", ances.ancestorsList[0]->birthday, ances.ancestorsList[0]->birthmonth, ances.ancestorsList[0]->birthyear);
+    //offset += sprintf(buffer + offset, "<p>%s</p>\n", ances.ancestorsList[0]->birthzipcode);
     offset += sprintf(buffer + offset, "</div>\n");
 
     // Niveau 2 : Parents

@@ -167,3 +167,8 @@
     margin-bottom: 20px;
     background: var(--level-3);
   }
+
+  .titre-h1
+  {
+    margin-bottom: 50px;
+  }
