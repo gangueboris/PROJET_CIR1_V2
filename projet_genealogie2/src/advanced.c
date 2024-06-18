@@ -113,7 +113,7 @@ fratrie findFratrie(population pop, Person* p)
         if (pop.popDatas[i]) // si on tombe sur une position valide, 
         {
             // vérification qu'il s'agisse d'un frère ou d'une soeur
-            if (pop.popDatas[i]->id != id && pop.popDatas[i]->father_id == father_id && pop.popDatas[i]->mother_id == mother_id)
+            if (pop.popDatas[i]->id != id && pop.popDatas[i]->father_id == father_id && pop.popDatas[i]->mother_id == mother_id && pop.popDatas[i]->father_id != 0 && pop.popDatas[i]->mother_id != 0)
             {
                 // gestion de l'espace de stockage dans la table de hachage
                 if (frat.size == frat.capacity - 1)

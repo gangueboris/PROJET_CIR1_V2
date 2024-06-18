@@ -1,9 +1,11 @@
+
 #ifndef PERSON_HTML_H
 #define PERSON_HTML_H
 
 #include "person.h"
 #include "population.h"
-#define BUFFER_SIZE 3000
+#define BUFFER_SIZE 30000
+#define PATH_SIZE 2500
 
 // Fonction pour créer un titre HTML pour une personne
 int titreHTMLPerson(char *buffer, Person *p);
@@ -19,5 +21,11 @@ int printAncestorsToHTML(char *buffer, const population t, Person *p); // faire 
 
 // fonction qui permet de représenter la fratrie d'une personne en HTML
 int printFratrieToHTML(char *buffer, const population pop, Person *p);
+
+// Fonction pour génerer uniquement les ancêtres associés à la personne
+void onlyPrintAncestors (const population pop, Person *p);
+
+// Fonction pour génerer uniquement la fratrie associés à la personne
+void onlyPrintFratrie (const population pop, Person *p);
 
 #endif

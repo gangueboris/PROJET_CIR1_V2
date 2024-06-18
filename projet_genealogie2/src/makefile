@@ -34,7 +34,6 @@ $(TARGET): $(OBJECTS)
 clean:
 	rm -f $(OBJECTS) $(TARGET)
 	rm -f ../export/*.html
-	rm -f *.d
 
 # Règle pour tout nettoyer
 distclean: clean

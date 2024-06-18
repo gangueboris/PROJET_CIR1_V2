@@ -4,7 +4,7 @@
 #include "population.h"
 #include "advanced.h"
 #include "htmlexport.h"
-#define PATH_SIZE 2500
+
 
 
 void menu (char* filename)
@@ -100,20 +100,11 @@ int main ()
 
     population pop = read_csv("../ressources/40.csv");
     linkPopulation(pop);
-    
-    char buffer[PATH_SIZE];
-    const int i = 6;
-    
-    if(pop.popDatas[i])
-    {
-        char* exportPath = "../export/";
-        int n = sprintf(buffer, exportPath);// écriture du chemin dans le buffer
-        n = fichePath(buffer+n, pop.popDatas[hash_O(pop, i)]); // concaténer dans le buffer le [id_person]-fiche.html
-        
-        exportPersonToHTML(pop, pop.popDatas[i], buffer, printAncestorsToHTML); // pointer sur fonction
-        exportPersonToHTML(pop, pop.popDatas[i], buffer, printFratrieToHTML);
-    }
-    
+    const int id = 2;
+    onlyPrintAncestors(pop, pop.popDatas[hash_O(pop, id)]);
+    //onlyPrintFratrie(pop, pop.popDatas[hash_O(pop, id)]);
+
     freePersons(pop.popDatas, pop.capacity);
     return EXIT_SUCCESS;
 }
+

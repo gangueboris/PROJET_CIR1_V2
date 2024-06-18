@@ -7,6 +7,7 @@
 #include "population.h"
 #include "advanced.h"
 
+
 const char* htmlTop = "<!DOCTYPE html>\n"
                     "<html lang=\"en\">\n"
                     "<head>\n"
@@ -62,6 +63,7 @@ void exportPersonToHTML(const population pop, Person *p, char *path, int(*f)(cha
     // Utilisation de la fonction pointer sur fonction
     (*f)(buffer,pop,p);
 
+
     // Ajout du titre h2 dans le fichier HTML
     fprintf(file, "%s", buffer);
 
@@ -77,6 +79,7 @@ int printAncestorsToHTML(char *buffer, const population pop, Person *p)
 {
     // récupérer les ancêtres de la personne
     ancestors ances = ancestorsPersons(pop, p);
+    buffer[0] = '\0';
     int offset = strlen(buffer);// nbre de charactères écrits
     
     /*---- Dans cette partie, nous écrivons du script html en C -----*/
@@ -88,8 +91,8 @@ int printAncestorsToHTML(char *buffer, const population pop, Person *p)
     // Niveau 1 : Personne principale
     offset += sprintf(buffer + offset, "<div class=\"level-1 rectangle\">\n");
     offset += sprintf(buffer + offset, "<h2>%s %s</h2>\n", ances.ancestorsList[0]->firstname, ances.ancestorsList[0]->lastname);
-    //offset += sprintf(buffer + offset, "<p>%d / %d / %d</p>\n", ances.ancestorsList[0]->birthday, ances.ancestorsList[0]->birthmonth, ances.ancestorsList[0]->birthyear);
-    //offset += sprintf(buffer + offset, "<p>%s</p>\n", ances.ancestorsList[0]->birthzipcode);
+    offset += sprintf(buffer + offset, "<p>%d / %d / %d</p>\n", ances.ancestorsList[0]->birthday, ances.ancestorsList[0]->birthmonth, ances.ancestorsList[0]->birthyear);
+    offset += sprintf(buffer + offset, "<p>%s</p>\n", ances.ancestorsList[0]->birthzipcode);
     offset += sprintf(buffer + offset, "</div>\n");
 
     // Niveau 2 : Parents
@@ -97,14 +100,14 @@ int printAncestorsToHTML(char *buffer, const population pop, Person *p)
     for (int i = 1; i < ances.ancestorsSize && i < 3; i++) {
         Person* parent = ances.ancestorsList[i];
         offset += sprintf(buffer + offset, "<li>\n");
-        offset += sprintf(buffer + offset, "<h2 class=\"level-2 rectangle\">%s %s</h2>\n", parent->firstname, parent->lastname);
+        offset += sprintf(buffer + offset, "<h2 class=\"level-2 rectangle\"><a href='%d-fiche.html'>%s %s</a></h2>\n", parent->id, parent->firstname, parent->lastname);
         
         // Niveau 3 : Grands-parents
         offset += sprintf(buffer + offset, "<ol class=\"level-3-wrapper\">\n");
         for (int j = 2 * i + 1; j < 2 * i + 3 && j < ances.ancestorsSize; j++) {
             Person* grandparent = ances.ancestorsList[j];
             offset += sprintf(buffer + offset, "<li>\n");
-            offset += sprintf(buffer + offset, "<h3 class=\"level-3 rectangle\">%s<br>%s</h3>\n", grandparent->firstname, grandparent->lastname);
+            offset += sprintf(buffer + offset, "<h3 class=\"level-3 rectangle\"><a href='%d-fiche.html'>%s<br>%s</a></h3>\n", grandparent->id, grandparent->firstname, grandparent->lastname);
             offset += sprintf(buffer + offset, "</li>\n");
         }
         offset += sprintf(buffer + offset, "</ol>\n");
@@ -128,6 +131,7 @@ int printFratrieToHTML(char *buffer, const population pop, Person *p)
 
     /*---- Dans cette partie, nous écrivons du script html en C -----*/
 
+    offset += sprintf(buffer + offset, "<br>\n");
     offset += sprintf(buffer + offset, "<h1 class =\"titre-h1\">FRATRIE de %s</h1>\n", p->firstname);
     offset += sprintf(buffer + offset, "<div class=\"fratrie-container\">\n");
 
@@ -140,11 +144,53 @@ int printFratrieToHTML(char *buffer, const population pop, Person *p)
     }
     if (frat.size == 0)
     {
-        offset += sprintf(buffer + offset, "<p>Pas de fratrie !!</p>\n");
+        offset += sprintf(buffer + offset, "<p>%s n'as pas de fratrie.</p>\n", p->firstname);
     }
 
     offset += sprintf(buffer + offset, "</div>\n");
 
     free(frat.fratrieList);
     return offset;
+}
+void onlyPrintFratrie(const population pop, Person *p) {
+    fratrie frat = findFratrie(pop, p);
+    char buffer[PATH_SIZE];
+    char* exportPath = "../export/";
+    
+    int n = sprintf(buffer, "%s", exportPath); // écriture du chemin dans le buffer
+    n = fichePath(buffer + n, p); // concaténer dans le buffer le [id_person]-fiche.html
+    exportPersonToHTML(pop, p, buffer, printFratrieToHTML);
+
+    // Générer le fichier HTML pour chaque frère et sœur
+    for (int i = 0; i < frat.size; i++) {
+        Person* sibling = frat.fratrieList[i];
+        n = sprintf(buffer, "%s", exportPath); // écriture du chemin dans le buffer
+        n = fichePath(buffer + n, sibling); // concaténer dans le buffer le [id_person]-fiche.html
+        exportPersonToHTML(pop, sibling, buffer, printFratrieToHTML);
+    }
+
+    // Libérer la mémoire allouée pour la fratrie
+    free(frat.fratrieList);
+}
+
+void onlyPrintAncestors(const population pop, Person *p) {
+    ancestors ances = ancestorsPersons(pop, p);
+    char buffer[PATH_SIZE];
+    char* exportPath = "../export/";
+
+    // Générer le fichier HTML pour la personne principale
+    int n = sprintf(buffer, "%s", exportPath); // écriture du chemin dans le buffer
+    n = fichePath(buffer + n, p); // concaténer dans le buffer le [id_person]-fiche.html
+    exportPersonToHTML(pop, p, buffer, printAncestorsToHTML);
+
+    // Générer les fichiers HTML pour les ancêtres
+    for (int i = 0; i < ances.ancestorsSize; i++) {
+        Person* ancestor = ances.ancestorsList[i];
+        n = sprintf(buffer, "%s", exportPath); // écriture du chemin dans le buffer
+        n = fichePath(buffer + n, ancestor); // concaténer dans le buffer le [id_person]-fiche.html
+        exportPersonToHTML(pop, ancestor, buffer, printAncestorsToHTML);
+    }
+
+    // Libérer la mémoire allouée pour les ancêtres
+    free(ances.ancestorsList);
 }
