@@ -114,5 +114,6 @@ int main ()
         exportPersonToHTML(pop, pop.popDatas[i], buffer, printFratrieToHTML);
     }
     
+    freePersons(pop.popDatas, pop.capacity);
     return EXIT_SUCCESS;
 }

@@ -72,6 +72,7 @@ void exportPersonToHTML(const population pop, Person *p, char *path, int(*f)(cha
     fclose(file);
 }
 
+//Fonction 1
 int printAncestorsToHTML(char *buffer, const population pop, Person *p) 
 {
     // récupérer les ancêtres de la personne
@@ -118,7 +119,7 @@ int printAncestorsToHTML(char *buffer, const population pop, Person *p)
     return offset;
 }
 
-
+// Fonction 2
 int printFratrieToHTML(char *buffer, const population pop, Person *p) 
 {
     // récupérer la fratrie de la personne
