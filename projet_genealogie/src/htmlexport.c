@@ -40,7 +40,7 @@ int fichePath(char *buffer, Person *p){
    return sprintf(buffer, "%d-fiche.html", p->id);
 }
 
-void exportPersonToHTML(const population pop, Person *p, char *path)
+void exportPersonToHTML(const population pop, Person *p, char *path, int(*f)(char *buffer, const population pop, Person *p))
 {
     // définition du header de la page HTML
 
@@ -58,8 +58,9 @@ void exportPersonToHTML(const population pop, Person *p, char *path)
     
     // Ecriture du titre
     char buffer[BUFFER_SIZE];
-
-    printAncestorsToHTML(buffer,pop,p);
+    
+    // Utilisation de la fonction pointer sur fonction
+    (*f)(buffer,pop,p);
 
     // Ajout du titre h2 dans le fichier HTML
     fprintf(file, "%s", buffer);
@@ -70,8 +71,6 @@ void exportPersonToHTML(const population pop, Person *p, char *path)
     // fermeture du fichier
     fclose(file);
 }
-
-
 
 int printAncestorsToHTML(char *buffer, const population pop, Person *p) 
 {
@@ -116,5 +115,35 @@ int printAncestorsToHTML(char *buffer, const population pop, Person *p)
     offset += sprintf(buffer + offset, "</div>\n");
 
     free(ances.ancestorsList);
+    return offset;
+}
+
+
+int printFratrieToHTML(char *buffer, const population pop, Person *p) 
+{
+    // récupérer la fratrie de la personne
+    fratrie frat = findFratrie(pop, p);
+    int offset = strlen(buffer);// nbre de charactères écrits
+
+    /*---- Dans cette partie, nous écrivons du script html en C -----*/
+
+    offset += sprintf(buffer + offset, "<h1 class =\"titre-h1\">FRATRIE de %s</h1>\n", p->firstname);
+    offset += sprintf(buffer + offset, "<div class=\"fratrie-container\">\n");
+
+    for (int i = 0; i < frat.size; i++) 
+    {
+        Person* sibling = frat.fratrieList[i];
+        offset += sprintf(buffer + offset, "<div class=\"sibling rectangle\">\n");
+        offset += sprintf(buffer + offset, "<h2>%s %s</h2>\n", sibling->firstname, sibling->lastname);
+        offset += sprintf(buffer + offset, "</div>\n");
+    }
+    if (frat.size == 0)
+    {
+        offset += sprintf(buffer + offset, "<p>Pas de fratrie !!</p>\n");
+    }
+
+    offset += sprintf(buffer + offset, "</div>\n");
+
+    free(frat.fratrieList);
     return offset;
 }

@@ -102,7 +102,7 @@ int main ()
     linkPopulation(pop);
     
     char buffer[PATH_SIZE];
-    const int i = 40;
+    const int i = 6;
     
     if(pop.popDatas[i])
     {
@@ -110,7 +110,8 @@ int main ()
         int n = sprintf(buffer, exportPath);// écriture du chemin dans le buffer
         n = fichePath(buffer+n, pop.popDatas[hash_O(pop, i)]); // concaténer dans le buffer le [id_person]-fiche.html
         
-        exportPersonToHTML(pop, pop.popDatas[i], buffer);
+        exportPersonToHTML(pop, pop.popDatas[i], buffer, printAncestorsToHTML); // pointer sur fonction
+        exportPersonToHTML(pop, pop.popDatas[i], buffer, printFratrieToHTML);
     }
     
     return EXIT_SUCCESS;
