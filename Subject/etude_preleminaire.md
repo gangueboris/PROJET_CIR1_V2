@@ -15,7 +15,7 @@ Le projet porte sur l'implémentation d'un outil capable de générer des fichie
 - Les scripts : Un ensemble de scripts LINUX permettant d’utiliser simplement le noyau C 
 - La sortie : Un ensemble de fichiers permettant d’afficher les résultats sous forme de site
 
-![architecture](Subject\imgs\architecture.png)
+![architecture](imgs\architecture.png)
 
 ### Organisation du projet
 ```
