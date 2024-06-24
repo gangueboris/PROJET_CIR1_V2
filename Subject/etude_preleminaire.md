@@ -31,11 +31,11 @@ Le projet porte sur l'implémentation d'un outil capable de générer des fichie
 ```
 projet_genealogie
 ├─ export      (dossier contenant la sortie)
-|    └─ .html
+|  └─ .html
 ├─ ressources  (dossier contenant les .csv)
 ├─ scripts     (dossier script linux)
 ├─ others
-|    └─ .css
+|  └─ .css
 └─   src       (noyau du projet)
     │  ├─ person.h
     │  ├─ person.c
@@ -54,23 +54,23 @@ projet_genealogie
 
 ### Planification et organisation des tâches
 |       Jours       |                            Tâches                                          |
---------------------------------------------------------------------------------------------------
+| ----------------- | ---------------------------------------------------------------------------|
 |                   | Rédaction de l'étude prélimaire                                            |
 |    24/05/24       | Implémentation des fonctions dans person.c, population.c, filemanager.c    |
---------------------------------------------------------------------------------------------------
+|                   |                                                                            | 
 |                   | Récapitulation du travail éffectuer la veille                              |
 |    25/05/24       | Implémentation des fonctions dans advanced.c (ancestors & fratrie)         |
---------------------------------------------------------------------------------------------------
+|                   |                                                                            |
 |                   | Récapitulation du travail éffectuer la veille                              |
 |    26/05/24       | Implémentation des fonctions dans htmlexport + makefile                    |
---------------------------------------------------------------------------------------------------
+|                   |                                                                            |
 |                   | Récapitulation du travail éffectuer la veille                              |
 |    27/05/24       | Implémentation du script                                                   |
 |                   | Définition et implémentation d'autres fonctionnalités                      |
---------------------------------------------------------------------------------------------------
+|                   |                                                                            |
 |                   | Récapitulation du travail éffectuer la veille                              |
 |    28/05/24       | Rédaction la présentation finale du projet                                 |
---------------------------------------------------------------------------------------------------
+|                   |                                                                            |
 |    29/05/24       |  Finalisation                                                              |
 --------------------------------------------------------------------------------------------------
 
