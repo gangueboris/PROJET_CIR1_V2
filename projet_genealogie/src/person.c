@@ -34,12 +34,24 @@ Person* initPerson(char* csvline)
     strcpy(p->birthzipcode, token);
 
     // split the date
-    date_token = strtok(date_token, "/");
-    p->birthday = atoi(date_token);
-    date_token = strtok(NULL, "/");
-    p->birthmonth = atoi(date_token);
-    date_token = strtok(NULL, "/");
-    p->birthyear = atoi(date_token);
+    if(strcmp(date_token, "-") == 0)
+    {
+        p->birthday = 0;
+        p->birthmonth = 0;
+        p->birthyear = 0;
+    }
+    else
+    {
+        date_token = strtok(date_token, "/");
+        p->birthday = atoi(date_token);
+        date_token = strtok(NULL, "/");
+        p->birthmonth = atoi(date_token);
+        date_token = strtok(NULL, "/");
+        p->birthyear = atoi(date_token);
+    }
+
+
+    
 
     // Initial is parent to NULL
     p->p_father = NULL;

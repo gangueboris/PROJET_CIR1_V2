@@ -15,13 +15,17 @@ typedef struct
 population initPopulation();
 
 // Définition de la fonction qui permet de redimensionné la population
-void resizeArray(Person** *array, const int newCapacity);
+Person** resizeArray(Person** array, const int newCapacity);
 
 // Définition de la fonction qui permet d'inserer les personnes dans la population
-void insert(population pop, int key, Person* p);
+void insert(population* pop, int key, Person* p);
 
 // Définition de la fonction qui permet de lier les personnes par parenté
 void linkPopulation(population pop);
 
+// Fonction pour récupérer transformer l'id en clé
 int getHash (population pop, int id);
+
+// Fonction pour libérer la mémoire allouée pour la population
+void freePersons(Person** p, int capacity);
 #endif

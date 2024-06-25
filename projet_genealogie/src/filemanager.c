@@ -21,7 +21,8 @@ population read_csv(const char *filename)
     while(fgets(buffer, sizeof(buffer), file))
     {
        Person* p = initPerson(buffer);
-       insert(pop, getHash(pop, p->id), p);  // Get transform the id to a key
+
+       insert(&pop, getHash(pop, p->id), p);  // Get transform the id to a key
     }
     fclose(file);
     return pop;
