@@ -22,15 +22,24 @@ int main(void)
     }*/
 
    /*------------------------Test de la fonction findFratrie -------------------------*/
-   fratrie frat = findFratrie(pop, 0);
+   /*fratrie frat = findFratrie(pop, 0);
     for (int i = 0; i < frat.size; i++)
     {
         printf("%d\n", frat.fratrieTab[i]->id);
     }
+   freePersons(pop.personstorage, pop.capacity);
+   */
+  /*------------------------ Test de la fonction ancestoresPersons -------------------------*/
+  ancestors ances = ancestorsPersons(pop, 24);
+  printf("capacity: %d\t size: %d\n", ances.capacity, ances.size);
+  for(int i = 0; i < ances.size; i++)
+  {
+    if(ances.ancestorsTab[i])
+      printf("%d\t", ances.ancestorsTab[i]->id);
+  }
+  printf("\n");
 
 
-
-    freePersons(pop.personstorage, pop.capacity);
     return EXIT_SUCCESS;
 }
 

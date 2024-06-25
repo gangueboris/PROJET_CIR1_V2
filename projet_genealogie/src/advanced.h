@@ -38,12 +38,13 @@ typedef struct
     int* array;
 }queue;
 
-void enqueue(queue q, int val);
-queue initQueue(int size);
-int dequeue (queue q);
-int isEmpty(queue q);
-int isFull(queue q);
-void freeQueue(queue q);
+void enqueue(queue* q, int val);
+queue* initQueue(int size);
+int dequeue (queue* q);
+int isEmpty(queue* q);
+int isFull(queue* q);
+void freeQueue(queue* q);
+
 /*------Set-----*/
 
 typedef struct 
