@@ -4,7 +4,9 @@
 #include "population.h"
 #include "filemanager.h"
 #include "advanced.h"
+#include "htmlexport.h"
 
+#define PATH_SIZE 255
 int main(void)
 {
     char filename[] = "../ressources/40.csv";
@@ -30,16 +32,24 @@ int main(void)
    freePersons(pop.personstorage, pop.capacity);
    */
   /*------------------------ Test de la fonction ancestoresPersons -------------------------*/
-  ancestors ances = ancestorsPersons(pop, 9);
-  printf("capacity: %d\t size: %d\n", ances.capacity, ances.size);
+  /*ancestors ances = ancestorsPersons(pop, 9);
   for(int i = 0; i < ances.size; i++)
   {
     if(ances.ancestorsTab[i])
       printf("%d\t", ances.ancestorsTab[i]->id);
   }
   printf("\n");
+  */
 
-
+  /*------------------------ Test de la fonction ExportHtml -------------------------*/
+  char buffer[BUFSIZ];
+  char path[PATH_SIZE] = "../export/"; // Definition de chemin de savergarde du fichier
+  int n = sprintf(buffer,"%s", path);
+  fichePath(buffer + n, pop.personstorage[getHash(pop, 9)]);
+  
+  //exportPersonToHTML(pop, pop.personstorage[getHash(pop, 9)],buffer);
+  
+ 
     return EXIT_SUCCESS;
 }
 

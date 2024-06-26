@@ -58,17 +58,18 @@ projet_genealogie
 |                   | Rédaction de l'étude prélimaire                                            |
 |    24/05/24       | Implémentation des fonctions dans person.c, population.c, filemanager.c    |
 |                   |                                                                            | 
-|                   | Récapitulation du travail éffectuer la veille                              |
+|                   | Récapitulation du travail éffectuer la veille + makefile                   |
 |    25/05/24       | Implémentation des fonctions dans advanced.c (ancestors & fratrie)         |
 |                   |                                                                            |
 |                   | Récapitulation du travail éffectuer la veille                              |
-|    26/05/24       | Implémentation des fonctions dans htmlexport + makefile                    |
+|    26/05/24       | Implémentation des fonctions dans htmlexport                               |
 |                   |                                                                            |
-|                   | Récapitulation du travail éffectuer la veille                              |
+|                   | Implémentation des fonctions du content + ajout du style (css)             |
 |    27/05/24       | Implémentation du script                                                   |
 |                   | Définition et implémentation d'autres fonctionnalités                      |
 |                   |                                                                            |
 |                   | Récapitulation du travail éffectuer la veille                              |
+|                   | Implémentation du menu                                                     |
 |    28/05/24       | Rédaction la présentation finale du projet                                 |
 |                   |                                                                            |
 |    29/05/24       |  Finalisation                                                              |
