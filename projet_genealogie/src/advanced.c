@@ -40,145 +40,140 @@ fratrie findFratrie(population pop, int id)
 
 // Implémentation des fonctions utilitaires
 // Fonction d'initialisation de la file
-queue* initQueue(int size)
+queue *new_queue(int q_size)
 {
-    queue* q = malloc(sizeof(queue));
-    q->tail  = -1;
-    q->top = -1;
-    q->capacity = size;
-    q->array = malloc(q->capacity * sizeof(int));
-    if(q->array == NULL)
+    queue *newQueue = malloc(sizeof(queue));
+    if (!newQueue)
     {
-        perror("Memory allocation failed for q.array !! \n");
+        printf("ERROR:Echec d'allocation pour newqueue !!\n");
         exit(EXIT_FAILURE);
     }
-    return q;
+    newQueue->array = malloc(q_size * sizeof(int));
+    if (!newQueue->array)
+    {
+        printf("ERROR: Echec d'allocation pour q->array !!\n");
+        free(newQueue); 
+        exit(EXIT_FAILURE);
+    }
+    newQueue->tail = -1;
+    newQueue->top = -1;
+    newQueue->q_size = q_size;
+    return newQueue;
 }
 
-void enqueue(queue* q, int val)
+// fonction permettant de vérifier si la file est vide ou pas
+int is_queue_empty(queue *q)
 {
-    if (!isFull(q))
+    return q->top == -1 && q->tail == -1;
+}
+
+// fonction permettant de vérifier si la file est pleine ou pas
+int is_queue_full(queue *q)
+{
+    return (q->tail + 1) % q->q_size == q->top;
+}
+
+// fonction permettant d'ajouter un nouvel élément dans la file
+void enqueue(queue *q, int value)
+{
+    if (!is_queue_full(q))
     {
-        if (q->top == -1)
+        q->tail = (q->tail + 1) % q->q_size;
+        q->array[q->tail] = value;
+        if (q->top == -1) // Pour la premiere insertion
         {
             q->top = 0;
         }
-        q->tail = (q->tail + 1) % q->capacity;
-        q->array[q->tail] = val;
-       
     }
     else
     {
-        printf("The queue is full \n");
+        fprintf(stderr, "La file est pleine !!\n");
+        exit(EXIT_FAILURE);
     }
 }
 
-int dequeue(queue* q)
+// fonction permettant de récupérer le premier élément de la liste
+int dequeue(queue *q)
 {
-   if(!isEmpty(q))
-   {
-     int temp = q->array[q->top];
-     if (q->top == q->tail) // Case ou il y a un seul element dans la file
-     {
-        q->top = q->tail = -1;
-     }
-    else
+    if (!is_queue_empty(q))
+    {
+        int returnValue = q->array[q->top];
+        if (q->top == q->tail) // Case ou il y a un seul element dans la file
         {
-            q->top = (q->top + 1) % q->capacity;
+            q->top = q->tail = -1;
         }
-     return temp;
-   }
-   else
-   {
-    printf("The queue is underflow !!\n");
-    exit(EXIT_FAILURE);
-   }
+        else
+        {
+            q->top = (q->top + 1) % q->q_size;
+        }
+        return returnValue;
+    }
+    else
+    {
+        printf("la file est vide, Impossible de dequeue !!\n");
+        exit(EXIT_FAILURE);
+    }
 }
-int isEmpty(queue* q)
-{
-    return q->tail == q->top;
-}
-int isFull(queue* q)
-{
-    return (q->top + 1) % q->capacity == q->tail;
-}
-// Fonction de libération de mémoire alloué pour la file
-void freeQueue(queue* q)
+
+// fonction permettant de libérer la mémoire alloué pour la file
+void free_queue(queue* q)
 {
     free(q->array);
     free(q);
 }
 
 // Implémentation de la fonction qui permet de générer un tableau d'ancêtre d'une personne
-ancestors ancestorsPersons(population pop, int id)
-{
-    // Iniitialisation
+ancestors ancestorsPersons(population pop, int id) {
     ancestors ances;
+    // initialisation de la variable ances
+    ances.capacity = pop.capacity;
     ances.size = 0;
-    ances.capacity = ANCES_SIZE;
     ances.ancestorsTab = malloc(ances.capacity * sizeof(Person*));
-    if (ances.ancestorsTab == NULL)
-    {
-        perror("Memory allocation failed for ances.ancestorsTab");
+    if (ances.ancestorsTab == NULL) {
+        fprintf(stderr, "Echec d'allocation pour ances.ancesList !!\n");
         exit(EXIT_FAILURE);
     }
+    
+    //Note: Dans cette partie, j'ai opté pour un level order traversal afin de stocker les personnes par génération
 
-    queue* q = initQueue(pop.capacity);
-    set visited = initSet(pop.capacity);
-    enqueue(q, id);
-    while(!isEmpty(q))
+    // Initialisation de la file 
+    queue* q = new_queue(ances.capacity);
+    enqueue(q, getHash(pop, id)); // ajout de la première personne dans la file
+  
+    while (!is_queue_empty(q)) // Continiué le process tant que la file n'est pas vide
     {
-        printf("gfdsgvezv f erg\n");
-        int current = dequeue(q);
-        ances.ancestorsTab[ances.size++] = pop.personstorage[getHash(pop, current)];
-        if (!inSet(visited, current)) 
+        // gestion de la capacité de stockage du tableau contenant les ancêtres de la personne
+        if (ances.size == ances.capacity) 
         {
-           add(visited, current);
-           //if (!inSet(visited, pop.personstorage[getHash(pop, current)]))
-           enqueue(q,  pop.personstorage[getHash(pop, current)]->father_id);
-           enqueue(q,  pop.personstorage[getHash(pop, current)]->mother_id);
+            ances.capacity *= 2;
+            ances.ancestorsTab = realloc(ances.ancestorsTab, ances.capacity * sizeof(Person*));
+            if (ances.ancestorsTab == NULL) {
+                fprintf(stderr, "Memory reallocation failed for ancestorsList\n");
+                exit(EXIT_FAILURE);
+            }
+        }
+         // recupérer la personne en tête de la file et l'ajouter au tableau de la génération
+        int index = dequeue(q);
+        ances.ancestorsTab[ances.size++] = pop.personstorage[index];
+        
+        if (index)  // S'assurer que la personne en tête du tableau n'est pas la personne inconnu (car elle est la dernière personne de la génération)
+        {
+            // récupération des indices des parents de la personne acctuelle
+            int father_id = pop.personstorage[index]->father_id;
+            int mother_id = pop.personstorage[index]->mother_id;
+
+            if (father_id) // si le père exist, l'ajouter à la file
+                enqueue(q, getHash(pop, father_id));
+                else       // au cas contraire, le père de la personne est la personne inconnu, donc on ajoute la personne inconnu à la file
+                enqueue(q, getHash(pop, 0));
+
+            if (mother_id) // si le mère exist, l'ajouter à la file
+                enqueue(q, getHash(pop, mother_id));
+            else           // au cas contraire, le mère de la personne est la personne inconnu, donc on ajoute la personne inconnu à la file
+                enqueue(q, getHash(pop, 0));
         }
     }
-    freeQueue(q);
-    free(visited.array);
+
+    free_queue(q); // libération de la mémoire alloué pour queue
     return ances;
-}
-
-// Implémentation d'un set
-
-set initSet(int size)
-{
-    set s;
-    s.capacity = size;
-    s.array = calloc(s.capacity, sizeof(int));
-    return s;
-}
-
-int inSet(set s, int value)
-{
-    for(int i = 0; i < s.capacity; i++)
-    { 
-        int index = (value + i) % s.capacity;
-        if(s.array[index] == value)
-        {
-            return 1;
-        }
-    }
-    return 0;
-}
-
-void add(set s, int value)
-{
-    if(inSet(s, value))
-        return;
-    for(int i = 0; i < s.capacity; i++)
-    {
-        int index = (value + i) % s.capacity;
-        if(s.array[index] == 0)
-        {
-            s.array[index] = value;
-            return;
-        }
-    }
-    printf("the set is full !!\n");
 }

@@ -30,7 +30,7 @@ int main(void)
    freePersons(pop.personstorage, pop.capacity);
    */
   /*------------------------ Test de la fonction ancestoresPersons -------------------------*/
-  ancestors ances = ancestorsPersons(pop, 24);
+  ancestors ances = ancestorsPersons(pop, 9);
   printf("capacity: %d\t size: %d\n", ances.capacity, ances.size);
   for(int i = 0; i < ances.size; i++)
   {

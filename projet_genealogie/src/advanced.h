@@ -30,31 +30,20 @@ ancestors ancestorsPersons(population pop, int id);
 
 // Fonctions utilitaires
 /*------- Queue ------*/
-typedef struct 
+typedef struct queue
 {
     int top;
     int tail;
-    int capacity;
+    int q_size;
     int* array;
 }queue;
 
-void enqueue(queue* q, int val);
-queue* initQueue(int size);
-int dequeue (queue* q);
-int isEmpty(queue* q);
-int isFull(queue* q);
-void freeQueue(queue* q);
-
-/*------Set-----*/
-
-typedef struct 
-{
-    int capacity;
-    int* array;
-}set;
-
-set initSet(int size);
-int inSet(set s, int value);
-void add(set s, int value);
+// fonctions associées à la structure de données : file
+queue * new_queue(int q_size); 
+void enqueue(queue*, int val); 
+int dequeue(queue *); 
+int is_queue_empty(queue *);
+int is_queue_full(queue *);
+void free_queue(queue* q);
 
 #endif 
