@@ -42,12 +42,11 @@ int main(void)
   */
 
   /*------------------------ Test de la fonction ExportHtml -------------------------*/
-  char buffer[BUFSIZ];
-  char path[PATH_SIZE] = "../export/"; // Definition de chemin de savergarde du fichier
-  int n = sprintf(buffer,"%s", path);
-  fichePath(buffer + n, pop.personstorage[getHash(pop, 9)]);
+
+  char path[PATH_SIZE]; // Definition de chemin de savergarde du fichier
+  fichePath(path, pop.personstorage[getHash(pop, 2)]);
   
-  //exportPersonToHTML(pop, pop.personstorage[getHash(pop, 9)],buffer);
+exportPersonToHTML(pop, pop.personstorage[getHash(pop, 2)],path, contentAncestors);
   
  
     return EXIT_SUCCESS;
