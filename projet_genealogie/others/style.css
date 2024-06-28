@@ -16,6 +16,8 @@
   hr{
     width: 50%;
     margin: 0 auto;
+    opacity: 0;
+    
   }
   
   a{

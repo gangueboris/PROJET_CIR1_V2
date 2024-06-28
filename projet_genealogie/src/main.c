@@ -6,49 +6,64 @@
 #include "advanced.h"
 #include "htmlexport.h"
 
-#define PATH_SIZE 255
+const char filename[] = "../ressources/40.csv";
+const population pop = read_csv(filename);
+linkPopulation(pop);
+
 int main(void)
 {
-    char filename[] = "../ressources/40.csv";
 
-    population pop = read_csv(filename);
-    linkPopulation(pop);
-
-    // Test to print person_id, father_id, mother_id
-    /*for(int i = 0; i < pop.capacity; i++)
-    {
-        if (pop.personstorage[i])
-          {
-            printf("%d\t%d\t%d\n",pop.personstorage[i]->id, pop.personstorage[i]->p_father->id, pop.personstorage[i]->p_mother->id);
-          }
-    }*/
-
-   /*------------------------Test de la fonction findFratrie -------------------------*/
-   /*fratrie frat = findFratrie(pop, 0);
-    for (int i = 0; i < frat.size; i++)
-    {
-        printf("%d\n", frat.fratrieTab[i]->id);
-    }
-   freePersons(pop.personstorage, pop.capacity);
-   */
-  /*------------------------ Test de la fonction ancestoresPersons -------------------------*/
-  /*ancestors ances = ancestorsPersons(pop, 9);
-  for(int i = 0; i < ances.size; i++)
-  {
-    if(ances.ancestorsTab[i])
-      printf("%d\t", ances.ancestorsTab[i]->id);
-  }
-  printf("\n");
-  */
 
   /*------------------------ Test de la fonction ExportHtml -------------------------*/
 
-  char path[PATH_SIZE]; // Definition de chemin de savergarde du fichier
-  fichePath(path, pop.personstorage[getHash(pop, 2)]);
-  
-exportPersonToHTML(pop, pop.personstorage[getHash(pop, 2)],path, contentAncestors);
-  
- 
-    return EXIT_SUCCESS;
+    const int id = 2;
+    helperContentAncestors(pop, pop.personstorage[getHash(pop, id)]);
+
+    
+
+
+  return EXIT_SUCCESS;
 }
 
+// Implémentation du menu
+void menu(population pop,int argc, char* argv[]) 
+{
+    if (argc < 2) {
+        printf("Usage: %s <option> [id]\n", argv[0]);
+        return;
+    }
+
+    int option = atoi(argv[1]);
+    int id = (argc >= 3) ? atoi(argv[2]) : 0; // modify after by adding string
+
+    switch (option) 
+    {
+        case 1: // Option 1: Afficher les ancêtres d'une personne par id 
+            displayancestors(id);
+            break;
+        case 2: // Option 2: Afficher la fratrie d'une personne par id
+           displayFratrie(id);
+            break;
+        case 3: // Option 3: Afficher la fratrie d'une personne par ordre de vieillesse
+            displayOldestFratrie(id);
+            break;
+        case 4: // Option 4: Afficher les personnes nées dans la même ville
+            displaySameTown(id);
+          break;
+        case 5: // Option 5: Afficher les personnes ayant le même prénom
+            displaySameFirstName(id);
+          break;
+        default:
+            printf("Option invalide\n");
+            break;
+    }
+  freePersons(pop.personstorage, pop.capacity);
+}
+
+
+int main(int argc, char* argv[]) 
+{
+    menu(pop, argc, argv);
+
+    return EXIT_SUCCESS;
+}

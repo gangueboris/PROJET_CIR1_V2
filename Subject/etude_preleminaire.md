@@ -76,7 +76,11 @@ projet_genealogie
 --------------------------------------------------------------------------------------------------
 
 
-
 ### Reponsables du projet
 - François LEGRAS
 - Sylvain LEFEBVRE
+
+
+### Idées en BONUS
+- Afficher la fratrie par ordre de viellesse
+- Afficher la fratrie par ordre alphabétique

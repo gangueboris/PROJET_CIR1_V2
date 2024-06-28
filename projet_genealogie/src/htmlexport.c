@@ -74,17 +74,17 @@ int printContentToHTML(char* buffer,const population pop, Person* p, int (*f)(ch
 
 // Implémentation de la fonction  ancestors
 int contentAncestors(char* buffer, const population pop, Person* p)
-{
-   
+{ 
     ancestors ances = ancestorsPersons(pop, p->id);
     
-    // Présentation, en-tête
-    int offset = sprintf(buffer, "   <h1 class = \"titre-header\"> ARBRE GENEALOGIQUE </h1>\n");
-    offset += sprintf(buffer + offset, "   <div class = \"content-container\">\n");
+    // Présentation, en-tête 
+    // NB: Pas besoin ici d'ajouter de l'offset car déjà ajouter lors de l'appel
+    int offset = sprintf(buffer, "   <h1 class = \"titre-h1\"> ARBRE GENEALOGIQUE </h1>\n");
+    offset += sprintf(buffer + offset, "   <div class = \"container\">\n");
     
     // Niveau 1: Personne don't on a les ancêtres
-    offset += sprintf(buffer + offset, "    <div class=\"level-1\">\n");
-    offset += sprintf(buffer + offset, "        <h2> %s, %s </h2>\n", p->firstname, p->lastname);
+    offset += sprintf(buffer + offset, "    <div class=\"level-1 rectangle\">\n");
+    offset += sprintf(buffer + offset, "        <h2> %s %s </h2>\n", p->firstname, p->lastname);
     offset += sprintf(buffer + offset, "        <p>%d / %d / %d </p>\n", p->birthday, p->birthmonth, p->birthyear);
     offset += sprintf(buffer + offset, "        <p> %s </p>\n", p->birthzipcode);
     offset += sprintf(buffer + offset, "    </div>\n\n");
@@ -95,12 +95,12 @@ int contentAncestors(char* buffer, const population pop, Person* p)
     for (int i = 1; i < ances.size && i <= 2 ; i++)    // i <= ances.size car on peut avoir moins de deux personnes comme ancêtres
     {
         offset += sprintf(buffer + offset, "        <li>\n");
-        offset += sprintf(buffer + offset, "            <h2 class=\"level-2 rectangle\"><a href='%d-fiche.html'>%s,  %s</a></h2>\n",ances.ancestorsTab[i]->id, ances.ancestorsTab[i]->firstname, ances.ancestorsTab[i]->lastname);
+        offset += sprintf(buffer + offset, "            <h2 class=\"level-2 rectangle\"><a href='%d-fiche.html'>%s<hr>  %s</a></h2>\n",ances.ancestorsTab[i]->id, ances.ancestorsTab[i]->firstname, ances.ancestorsTab[i]->lastname);
         offset += sprintf(buffer + offset, "            <ol class=\"level-3-wrapper\">\n");
         for (int j = 2 * i + 1; j < 2 * i + 3 && j < ances.size; j++)
         {
             offset += sprintf(buffer + offset, "                <li>\n");
-            offset += sprintf(buffer + offset, "                    <h2 class=\"level-3 rectangle\"><a href='%d-fiche.html'>%s,  %s</a></h2>\n",ances.ancestorsTab[j]->id, ances.ancestorsTab[j]->firstname, ances.ancestorsTab[j]->lastname);
+            offset += sprintf(buffer + offset, "                    <h2 class=\"level-3 rectangle\"><a href='%d-fiche.html'>%s<hr>  %s</a></h2>\n",ances.ancestorsTab[j]->id, ances.ancestorsTab[j]->firstname, ances.ancestorsTab[j]->lastname);
             offset += sprintf(buffer + offset, "                </li>\n");
         }
         offset += sprintf(buffer + offset, "            </ol>\n");
@@ -113,6 +113,55 @@ int contentAncestors(char* buffer, const population pop, Person* p)
 
     offset += sprintf(buffer + offset, "</div>\n");
 
-    
+    free(ances.ancestorsTab); // Libération de la mémoire alloué les ancêtres
     return offset;
+}
+
+
+int contentFratrie(char* buffer, const population pop, Person* p)
+{
+    // récupérer la fratrie de la personne
+    fratrie frat = findFratrie(pop, p->id);
+    
+    /*---- Dans cette partie, nous écrivons du script html en C -----*/
+    // NB: Pas besoin ici d'ajouter de l'offset car déjà ajouter lors de l'appel
+    int offset = sprintf(buffer, "   <h1 class =\"titre-h1\">FRATRIE de %s</h1>\n", p->firstname);
+    offset += sprintf(buffer + offset, "   <div class=\"fratrie-container\">\n");
+
+    for (int i = 0; i < frat.size; i++) 
+    {
+        Person* sibling = frat.fratrieTab[i];
+        offset += sprintf(buffer + offset, "        <div class=\"sibling rectangle\">\n");
+        offset += sprintf(buffer + offset, "            <h2>%s, %s</h2>\n", sibling->firstname, sibling->lastname);
+        offset += sprintf(buffer + offset, "            <p>%d / %d / %d </p>\n", sibling->birthday, sibling->birthmonth, sibling->birthyear);
+        offset += sprintf(buffer + offset, "            <p> %s </p>\n", sibling->birthzipcode);
+        offset += sprintf(buffer + offset, "        </div>\n");
+    }
+    if (frat.size == 0)
+    {
+        offset += sprintf(buffer + offset, "        <p>%s n'a pas de fratrie.</p>\n", p->firstname);
+    }
+    
+    offset += sprintf(buffer + offset, "   </div>\n");
+
+    free(frat.fratrieTab);
+    return offset;
+}
+
+// Cette fonction nous permet de générer les fichiers html du reste de la génération
+void helperContentAncestors(const population pop, Person* p) 
+{
+    ancestors ances = ancestorsPersons(pop, p->id);
+   
+    char path[PATH_SIZE]; // Definition de chemin de savergarde du fichier
+
+    // Générer les fichiers HTML pour toute la génération
+    for (int i = 0; i < ances.size; i++) 
+    {
+        fichePath(path, pop.personstorage[getHash(pop, ances.ancestorsTab[i]->id)]); //Le contenue du path est écrasé à chaque appel
+        exportPersonToHTML(pop, pop.personstorage[getHash(pop, ances.ancestorsTab[i]->id)],path, contentAncestors);
+    }
+
+    // Libérer la mémoire allouée pour les ancêtres
+    free(ances.ancestorsTab);
 }
