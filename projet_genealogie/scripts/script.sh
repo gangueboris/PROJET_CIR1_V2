@@ -1,5 +1,5 @@
 # Definition de l'exécutable
-EXEC="./program"
+EXEC="../src/output/program"
 
 # Vérification du système d'exploitation sur lequel est exécuté le programme
 
@@ -26,6 +26,7 @@ make
 
 while true; do
     clear
+    echo "Current directory: $(pwd)" 
     echo "===================================== Menu ====================================="
     echo "1. Générer les ancêtres d'une personne par id"
     echo "2. Générer la fratrie d'une personne par id"
