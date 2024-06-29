@@ -19,14 +19,16 @@ else
 fi # Fin des conditions if
 
 # Compilation du programme et excécution
-
+# Changer de repertoire, exécuter le make et revenir dans le current répertoire
+pushd ../src
 make clean
 make
-./program
+popd
+
 
 while true; do
     clear
-    echo "Current directory: $(pwd)" 
+    #echo "Current directory: $(pwd)" 
     echo "===================================== Menu ====================================="
     echo "1. Générer les ancêtres d'une personne par id"
     echo "2. Générer la fratrie d'une personne par id"
@@ -42,7 +44,7 @@ while true; do
             read -p "Entrer l'ID de la personne: " id
             $EXEC 1 $id
             echo "Pages générées avec succès !"
-            $open_command "../export/2-fiche.html"
+            $open_command "../export/$id-fiche.html"
             ;;  
         2)
             rm -f ../export/*.html

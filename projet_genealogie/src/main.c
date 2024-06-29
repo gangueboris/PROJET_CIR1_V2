@@ -7,7 +7,6 @@
 #include "htmlexport.h"
 
 
-
 // Implémentation des fonctions qui les options du menu
 void displayancestors(population pop, int id)
 {
@@ -16,7 +15,11 @@ void displayancestors(population pop, int id)
 
 void displayFratrie(population pop, int id)
 {
-  return;
+  char path[PATH_SIZE];
+
+  fratrie frat = findFratrie(pop, id);
+  fichePath(path, pop.personstorage[getHash(pop, id)]);
+  exportPersonToHTML(pop, pop.personstorage[getHash(pop, id)],path, contentFratrie);
 }
 
 void displayNbyTown(population pop, int id)
@@ -31,14 +34,9 @@ void displaySameFirstName(population pop, int id)
 // Implémentation du menu
 void menu(population pop,int argc, char* argv[]) 
 {
-    if (argc < 2) {
-        printf("Usage: %s <option> [id]\n", argv[0]);
-        return;
-    }
-
-    int option = atoi(argv[1]);
-    int id = (argc >= 3) ? atoi(argv[2]) : 0; // modify after by adding string
-
+    
+    int option = atoi(argv[1]); // récupérer l'option dans la ligne de commande
+    int id = atoi(argv[2]);
     switch (option) 
     {
         case 1: // Option 1: Afficher les ancêtres d'une personne par id 
@@ -68,7 +66,7 @@ int main(int argc, char* argv[])
     linkPopulation(pop);
 
     menu(pop, argc, argv);
-    printf("argc: %d\t argv: %s \t%s\t%s\n", argc, argv[0], argv[1], argv[2]);
+    //printf("argc: %d\t argv: %s \t%s\t%s\n", argc, argv[0], argv[1], argv[2]);
 
     freePersons(pop.personstorage, pop.capacity);
     return EXIT_SUCCESS;
