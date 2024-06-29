@@ -6,10 +6,6 @@
 #include "advanced.h"
 #include "htmlexport.h"
 
-const char filename[] = "../ressources/40.csv";
-const population pop = read_csv(filename);
-linkPopulation(pop);
-
 int main(void)
 {
 
@@ -26,7 +22,7 @@ int main(void)
 }
 
 // Implémentation du menu
-void menu(population pop,int argc, char* argv[]) 
+void menu(int argc, char* argv[]) 
 {
     if (argc < 2) {
         printf("Usage: %s <option> [id]\n", argv[0]);
@@ -47,23 +43,28 @@ void menu(population pop,int argc, char* argv[])
         case 3: // Option 3: Afficher la fratrie d'une personne par ordre de vieillesse
             displayOldestFratrie(id);
             break;
-        case 4: // Option 4: Afficher les personnes nées dans la même ville
+        case 4: // Option 4: Afficher les personnes n premières personnes par ville
             displaySameTown(id);
           break;
-        case 5: // Option 5: Afficher les personnes ayant le même prénom
+        case 5: // Option 5: Afficher les informations des personnes ayant le même prénom
             displaySameFirstName(id);
           break;
         default:
             printf("Option invalide\n");
             break;
     }
-  freePersons(pop.personstorage, pop.capacity);
 }
 
 
 int main(int argc, char* argv[]) 
 {
-    menu(pop, argc, argv);
+    const char filename[] = "../ressources/40.csv";
+    const population pop = read_csv(filename);
+    linkPopulation(pop);
 
+    menu(pop, argc, argv);
+    printf("argc: %d\t argv: %s\n", argc, argv);
+
+    freePersons(pop.personstorage, pop.capacity);
     return EXIT_SUCCESS;
 }

@@ -42,7 +42,6 @@ clean:
 	rm -rf $(OUTPUT_DIR)
 	rm -f ../export/*.html
 	rm -f *.d
-
 # Règle pour tout nettoyer
 distclean: clean
 
