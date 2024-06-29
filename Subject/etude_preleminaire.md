@@ -47,9 +47,9 @@ projet_genealogie
     │  ├─ advanced.c
     │  ├─ htmlexport.h
     │  ├─ htmlexport.c
-    │  ├─ README.md
-    │  └─  makefile
-    └─ output  
+    │  ├─ makefile
+    │  └─  output
+    └─ 
 ```
 
 ### Planification et organisation des tâches
