@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include "htmlexport.h"
 #include "advanced.h"
@@ -117,12 +118,37 @@ int contentAncestors(char* buffer, const population pop, Person* p)
     return offset;
 }
 
+    // function de comparaison pour qsort
+    
+int compare(const void *a, const void *b) 
+{
+    Person *personA = *(Person **)a;
+    Person *personB = *(Person **)b;
+    //printf("a: %d\tb : %d\n",personA->birthyear, personB->birthyear);
+    if (personA->birthyear < personB->birthyear) return -1;
+    if (personA->birthyear > personB->birthyear) return 1;
+
+
+    // If years are the same, compare months
+    if (personA->birthmonth < personB->birthmonth) return -1;
+    if (personA->birthmonth > personB->birthmonth) return 1;
+
+    // If months are also the same, compare days
+    if (personA->birthday < personB->birthday) return -1;
+    if (personA->birthday > personB->birthday) return 1;
+
+    return 0; // If all are the same, the persons are equal
+}
 
 int contentFratrie(char* buffer, const population pop, Person* p)
 {
     // récupérer la fratrie de la personne
     fratrie frat = findFratrie(pop, p->id);
+
+    // Trier la fratrie date de naissance
+    qsort(frat.fratrieTab, frat.size, sizeof(Person*), compare);
     
+
     /*---- Dans cette partie, nous écrivons du script html en C -----*/
     // NB: Pas besoin ici d'ajouter de l'offset car déjà ajouter lors de l'appel
     int offset = sprintf(buffer, "   <h1 class =\"titre-h1\">FRATRIE de %s</h1>\n", p->firstname);
@@ -133,7 +159,7 @@ int contentFratrie(char* buffer, const population pop, Person* p)
         Person* sibling = frat.fratrieTab[i];
         offset += sprintf(buffer + offset, "        <div class=\"sibling rectangle\">\n");
         offset += sprintf(buffer + offset, "            <h2>%s, %s</h2>\n", sibling->firstname, sibling->lastname);
-        offset += sprintf(buffer + offset, "            <p>%d / %d / %d </p>\n", sibling->birthday, sibling->birthmonth, sibling->birthyear);
+        offset += sprintf(buffer + offset, "            <p> %02d/%02d/%04d </p>\n", sibling->birthday, sibling->birthmonth, sibling->birthyear);
         offset += sprintf(buffer + offset, "            <p> %s </p>\n", sibling->birthzipcode);
         offset += sprintf(buffer + offset, "        </div>\n");
     }
@@ -165,3 +191,10 @@ void helperContentAncestors(const population pop, Person* p)
     // Libérer la mémoire allouée pour les ancêtres
     free(ances.ancestorsTab);
 }
+
+// Implémentation de la fonction qui permet de trouver les personne qui le même prénom dans la population
+/*
+sameFirstName findSameName(population pop)
+{
+
+}*/

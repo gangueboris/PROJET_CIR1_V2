@@ -27,7 +27,7 @@ popd
 
 
 while true; do
-    clear
+    #clear
     #echo "Current directory: $(pwd)" 
     echo "===================================== Menu ====================================="
     echo "1. Générer les ancêtres d'une personne par id"

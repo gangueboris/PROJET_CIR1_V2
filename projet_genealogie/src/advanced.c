@@ -29,7 +29,7 @@ fratrie findFratrie(population pop, int id)
         }
            
         // Recherche de la fratrie dans la population
-        if(pop.personstorage[i] && id != pop.personstorage[i]->id && father_id == pop.personstorage[i]->father_id && mother_id == pop.personstorage[i]->mother_id)
+        if(pop.personstorage[i] && pop.personstorage[i]->id != 0 && id != pop.personstorage[i]->id && father_id == pop.personstorage[i]->father_id && mother_id == pop.personstorage[i]->mother_id)
         {
             frat.fratrieTab[frat.size] = pop.personstorage[i];
             frat.size++ ;
