@@ -33,11 +33,10 @@ while true; do
     echo "1. Générer les ancêtres d'une personne par id"
     echo "2. Générer la fratrie d'une personne par id"
     echo "3. Afficher les personnes n premières personnes par ville"
-    echo "4. Afficher les informations des personnes ayant le même prénom"
-    echo "5. Quitter"
+    echo "4. Quitter"
     echo "================================================================================"
     read -p "Choisissez une option: " choice
-
+    
     case $choice in
         1)
             rm -f ../export/*.html
@@ -55,19 +54,13 @@ while true; do
             ;;
         3)
             rm -f ../export/*.html
-            read -p "Entrer l'ID de la personne: " id
+            read -p "Enter un nombre n: " n
+            read -p "Entrer le nom de la ville: " ville
             echo "Page générée avec succès !"
-            $EXEC 3 $id
-            $open_command "../export/$id-fiche.html"
+            $EXEC 3 "$n" "$ville"
+            #$open_command "../export/$id-fiche.html"
             ;;
         4)
-            rm -f ../export/*.html
-            read -p "Entrer un nombre: " n
-            echo "Page générée avec succès !"
-            $EXEC 4 $n
-            $open_command "../export/$id-fiche.html"
-            ;;
-        5)
             rm -f ../export/*.html
             echo "Quitter..."
             break

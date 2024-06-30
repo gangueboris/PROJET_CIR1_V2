@@ -118,27 +118,7 @@ int contentAncestors(char* buffer, const population pop, Person* p)
     return offset;
 }
 
-    // function de comparaison pour qsort
-    
-int compare(const void *a, const void *b) 
-{
-    Person *personA = *(Person **)a;
-    Person *personB = *(Person **)b;
-    //printf("a: %d\tb : %d\n",personA->birthyear, personB->birthyear);
-    if (personA->birthyear < personB->birthyear) return -1;
-    if (personA->birthyear > personB->birthyear) return 1;
 
-
-    // If years are the same, compare months
-    if (personA->birthmonth < personB->birthmonth) return -1;
-    if (personA->birthmonth > personB->birthmonth) return 1;
-
-    // If months are also the same, compare days
-    if (personA->birthday < personB->birthday) return -1;
-    if (personA->birthday > personB->birthday) return 1;
-
-    return 0; // If all are the same, the persons are equal
-}
 
 int contentFratrie(char* buffer, const population pop, Person* p)
 {
@@ -146,7 +126,7 @@ int contentFratrie(char* buffer, const population pop, Person* p)
     fratrie frat = findFratrie(pop, p->id);
 
     // Trier la fratrie date de naissance
-    qsort(frat.fratrieTab, frat.size, sizeof(Person*), compare);
+    qsort(frat.fratrieTab, frat.size, sizeof(Person*), compareDate);
     
 
     /*---- Dans cette partie, nous écrivons du script html en C -----*/
@@ -192,9 +172,3 @@ void helperContentAncestors(const population pop, Person* p)
     free(ances.ancestorsTab);
 }
 
-// Implémentation de la fonction qui permet de trouver les personne qui le même prénom dans la population
-/*
-sameFirstName findSameName(population pop)
-{
-
-}*/

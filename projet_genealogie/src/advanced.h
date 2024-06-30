@@ -46,4 +46,10 @@ int is_queue_empty(queue *);
 int is_queue_full(queue *);
 void free_queue(queue* q);
 
+
+// Implémentation d'autres options en +
+int compareDate(const void *a, const void *b);
+int compareStrings(const void *a, const void *b);
+
+population findNbyTown(population pop);
 #endif 

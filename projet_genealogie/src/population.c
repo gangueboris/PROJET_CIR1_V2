@@ -4,10 +4,10 @@
 #include "population.h"
 
 //Implémentation de la fonction qui permet d'initialiser la population
-population initPopulation()
+population initPopulation(int capacity)
 {
    population pop;
-   pop.capacity = POP_SIZE;
+   pop.capacity = capacity;
    pop.size = 0;
    pop.personstorage = calloc(pop.capacity, sizeof(Person*));
    if ( pop.personstorage == NULL)

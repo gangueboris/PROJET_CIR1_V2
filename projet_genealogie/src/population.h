@@ -2,7 +2,7 @@
 # define _POPULATION_H_
 
 #include "person.h"
-#define POP_SIZE 100
+#define POP_SIZE 250
 // définition de la structure population
 typedef struct
 {
@@ -12,7 +12,7 @@ typedef struct
 }population;
 
 // Définition de la fonction qui permet d'initialiser la population
-population initPopulation();
+population initPopulation(int size);
 
 // Définition de la fonction qui permet de redimensionné la population
 Person** resizeArray(Person** array, const int newCapacity);

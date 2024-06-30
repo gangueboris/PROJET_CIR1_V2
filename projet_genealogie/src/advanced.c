@@ -1,6 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+
 #include "advanced.h"
+#include "population.h"
 
 // Implémentation de la fonction qui permet de trouver la fratrie d'un personne
 fratrie findFratrie(population pop, int id)
@@ -29,7 +32,7 @@ fratrie findFratrie(population pop, int id)
         }
            
         // Recherche de la fratrie dans la population
-        if(pop.personstorage[i] && pop.personstorage[i]->id != 0 && id != pop.personstorage[i]->id && father_id == pop.personstorage[i]->father_id && mother_id == pop.personstorage[i]->mother_id)
+        if(pop.personstorage[i] && pop.personstorage[i]->id != 0 && pop.personstorage[i]->father_id != 0 && pop.personstorage[i]->mother_id != 0 && id != pop.personstorage[i]->id && father_id == pop.personstorage[i]->father_id && mother_id == pop.personstorage[i]->mother_id)
         {
             frat.fratrieTab[frat.size] = pop.personstorage[i];
             frat.size++ ;
@@ -176,4 +179,64 @@ ancestors ancestorsPersons(population pop, int id) {
 
     free_queue(q); // libération de la mémoire alloué pour queue
     return ances;
+}
+
+
+/*------------------------------------------Implémentation des fonctions en + ----------------------------------------------*/
+
+// function de comparaison pour qsort
+
+int compareDate(const void *a, const void *b) 
+{
+    Person *personA = *(Person **)a;
+    Person *personB = *(Person **)b;
+    //printf("a: %d\tb : %d\n",personA->birthyear, personB->birthyear);
+    if (personA->birthyear < personB->birthyear) return -1;
+    if (personA->birthyear > personB->birthyear) return 1;
+
+
+    // If years are the same, compare months
+    if (personA->birthmonth < personB->birthmonth) return -1;
+    if (personA->birthmonth > personB->birthmonth) return 1;
+
+    // If months are also the same, compare days
+    if (personA->birthday < personB->birthday) return -1;
+    if (personA->birthday > personB->birthday) return 1;
+
+    return 0; // If all are the same, the persons are equal
+}
+
+
+// Implémentation de la fonction qui permet de trouver les personne qui le même prénom dans la population
+/*
+Dans cette partie, je trie d'abord et j'aurai ainsi les personnes ordonées par ville.Se sera dans la partie html je vais gérer par affichage par ville
+*/
+// Fonction de comparaison pour des chaine de charatères
+int compareStrings(const void *a, const void *b)
+{
+    Person* A = *(Person**)a;
+    Person* B = *(Person**)b;
+
+    return strcmp(A->birthzipcode, B->birthzipcode);
+}
+
+
+population findNbyTown(population pop)
+{
+    // Dans cette partie, je fais en sorte que les personnes soit contigu dans un nouveau tableau
+    population popclone = initPopulation(pop.capacity);
+    for (int i = 0; i < popclone.capacity; i++)
+    {
+        if(pop.personstorage[i])
+        {
+            popclone.personstorage[popclone.size] = pop.personstorage[i];
+            popclone.size++; // Mise à jour de la taille  
+              
+        }
+    }
+   
+    //printf("Capacity: %d\tSize: %d\n", popclone.capacity, popclone.size);
+    qsort(popclone.personstorage, popclone.size, sizeof(Person*), compareStrings);  
+
+    return popclone;
 }

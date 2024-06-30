@@ -23,7 +23,7 @@ void chomp(char* line)
 population read_csv(const char *filename)
 {
     // Initialisation de la population
-    population pop = initPopulation();
+    population pop = initPopulation(POP_SIZE);
 
     FILE* file = fopen(filename, "r"); // Ouverture du fichier
     if(file == NULL)

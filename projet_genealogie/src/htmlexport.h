@@ -21,14 +21,7 @@ int contentFratrie(char* buffer, const population pop, Person* p);
 void helperContentAncestors(const population pop, Person* p);
 
 // Définition des structures des options en +
-typedef struct
-{
-    int size;
-    int capacity;
-    Person** storage;
-}sameFirstName;
 
-sameFirstName findSameName(population pop);
 
 
 #endif

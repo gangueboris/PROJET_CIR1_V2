@@ -7,7 +7,7 @@ typedef struct person{
     int father_id; 
     int mother_id; 
     char lastname[20]; 
-    char firstname[20]; 
+    char firstname[20]; // prénom
     int birthday; int birthmonth; int birthyear; 
     char birthzipcode[30]; 
     struct person * p_father; 
