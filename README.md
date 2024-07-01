@@ -29,27 +29,26 @@ Le projet porte sur l'implémentation d'un outil capable de générer des fichie
 
 ### Organisation du projet
 ```
-projet_genealogie
-├─ :open_file_folder: export               // Dossier contenant la sortie
-|  └─ :page_facing_up: .html 
-├─ :open_file_folder: ressources           // Dossier contenant les .csv
-├─ :open_file_folder: scripts              // Dossier script linux
-├─ :open_file_folder: others 
-|  └─ .css
-└─ :open_file_folder: src                  // Noyau du projet
-    │  ├─ :page_facing_up: person.h
-    │  ├─ :page_facing_up: person.c
-    │  ├─ :page_facing_up: population.h
-    │  ├─ :page_facing_up: population.c
-    │  ├─ :page_facing_up: filemanager.h
-    │  ├─ :page_facing_up: filemanager.c
-    │  ├─ :page_facing_up: advanced.h
-    │  ├─ :page_facing_up: advanced.c
-    │  ├─ :page_facing_up: htmlexport.h
-    │  ├─ :page_facing_up: htmlexport.c
-    │  ├─ :page_facing_up: makefile
-    │  └─ :open_file_folder: output
-    └─ :page_facing_up: REAME.md
+📦projet_genealogie
+┣ 📂 export                    // Dossier contenant la sortie
+┃ ┗ :page_facing_up: .html 
+┃ ┣ 📂 ressources              // Dossier contenant les .csv
+┃ ┣ 📂 scripts                 // Dossier script shell
+┃ ┣ 📂 others 
+┃ ┗ .css
+┗   📂 src                     // Noyau du projet
+    ┃ ┣ 📜 person.h
+    ┃ ┣ 📜 person.c
+    ┃ ┣ 📜 population.h
+    ┃ ┣ 📜 population.c
+    ┃ ┣ 📜 filemanager.h
+    ┃ ┣ 📜 filemanager.c
+    ┃ ┣ 📜 advanced.h
+    ┃ ┣ 📜 advanced.c
+    ┃ ┣ 📜 htmlexport.h
+    ┃ ┣ 📜 htmlexport.c
+    ┃ ┣ 📜 makefile
+    ┗   📂 output
 ```
 
 
@@ -61,12 +60,12 @@ projet_genealogie
 
 ## Modification de la population
 
-1. Ajout d'un fichier ***csv** d'une population dans`/ressources`.
+1. Ajout d'un fichier **csv** d'une population dans`/ressources`.
 2. Se rendre dans le fichier **main.c** `/src/main.c`.
 3. Modifier la ligne 89 `char* filename = "../ressources/NOM_DU_FICHIER";`.
 
 ## Membre de l'équipe:
 
-- GANGUE Saan Boris
+- GANGUE Boris
 - CORVAISIER Antoine
 - CORNIC Maël
