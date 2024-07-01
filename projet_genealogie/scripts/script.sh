@@ -58,7 +58,7 @@ while true; do
             read -p "Entrer le nom de la ville: " ville
             echo "Page générée avec succès !"
             $EXEC 3 "$n" "$ville"
-            #$open_command "../export/$id-fiche.html"
+            $open_command "../export/ville.html"
             ;;
         4)
             rm -f ../export/*.html

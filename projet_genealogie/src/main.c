@@ -16,6 +16,7 @@ void displayancestors(population pop, int id)
   helperContentAncestors(pop, pop.personstorage[getHash(pop, id)]);
 }
 
+// Fonction d'option d'affichage pour la fratrie
 void displayFratrie(population pop, int id)
 {
   char path[PATH_SIZE];
@@ -24,36 +25,24 @@ void displayFratrie(population pop, int id)
   exportPersonToHTML(pop, pop.personstorage[getHash(pop, id)],path, contentFratrie);
 }
 
+// Cette fonction affiche les informations des n premières personnes de la ville 
 void displayNbyTown(population pop,int n, char* ville)
 {
-  //printf("I'm inside the function displatSameFirstName\n");
-  population popclone = findNbyTown(pop);
- // printf("Nom d'entré: %s\n", nom);
-  char change[MAX_SIZE] = ""; 
-  int count = 1;
-  for (int i = 0; i < popclone.size; i++)
-  {
-    /*
-      Maintenant que c'est fait, je vais essayer d'écrire dans la console ce que je voudrais générer en HTML et aller le faire.
-    */
-    //printf("%d  - %s, %d\n",i, popclone.personstorage[i]->birthzipcode, popclone.personstorage[i]->id);
+  char path[PATH_SIZE];
 
-    if (strcmp(change, popclone.personstorage[i]->birthzipcode) != 0) // vu que c'est trié, lorqu'on rencontre une nouvelle personne ...
-    {
-      printf("      %d. %s\n",count, popclone.personstorage[i]->birthzipcode);
-      strcpy(change, popclone.personstorage[i]->birthzipcode);
-      count++;
-    }
-    printf("%d, %s, %s\n",popclone.personstorage[i]->id, popclone.personstorage[i]->lastname, popclone.personstorage[i]->firstname);
-      
-  }
-  //freePersons(popclone.personstorage, popclone.capacity); // libération de la mémoire alloué dans initPopulation()
+  fichePath(path, NULL);
+  exportPersonToHTMLV2(pop, n, ville, path, contentNbyTown);
 }
 
 
 // Implémentation du menu
 void menu(population pop,int argc, char* argv[]) 
 {
+  if (argc == 1) // Condition pour éviter un seg fault lorsqu'on compile sans avoir mit les arguments dans la console
+  {
+    printf("Aucun argument dans la console, impossible d'excéter le programme !\n"); // Pour excécuter le programme, il faut se rendre dans le script
+    return;
+  }
     int option, n, id;
     char* ville = NULL;
     option = atoi(argv[1]);
@@ -75,13 +64,6 @@ void menu(population pop,int argc, char* argv[])
        return;
     }
 
-
-    /*// Debug: Print the arguments received
-    printf("Option: %d\n", option);
-    printf("ville: %s\n", ville);
-    printf("n: %d\n", n);*/
-
-  
 
     switch (option) 
     {

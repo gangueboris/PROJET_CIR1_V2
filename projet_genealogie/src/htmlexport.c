@@ -32,8 +32,8 @@ int titreHTMLPerson(char* buffer, Person *p)
 // Implémenter de la fonction qui écrit le nom de la fiche dans un buffer
 int fichePath(char* buffer, Person* p)
 {
-    // [id_person]-fiche.html
-    return sprintf(buffer, "../export/%d-fiche.html", p->id);
+    // [id_person]-fiche.html or ville.html
+    return p == NULL ? sprintf(buffer, "../export/ville.html"):sprintf(buffer, "../export/%d-fiche.html", p->id);
 }
 
 void exportPersonToHTML(const population pop, Person* p, char* path, int (*f)(char* buffer, const population pop, Person* p))
@@ -55,6 +55,26 @@ void exportPersonToHTML(const population pop, Person* p, char* path, int (*f)(ch
     fclose(file);
 }
 
+// Cette version nous permet d'exporter d'autres format qui ne prenne pas en entrer la personne p
+void exportPersonToHTMLV2(const population pop, int n, char* ville, char* path, int (*f)(char* buffer, population pop, int n, char* ville))
+{
+    FILE* file = fopen(path, "w"); // creation du fichier dans le dossier de destination
+    if (file == NULL)
+    {
+        perror("Can't open file to write in  !! \n");
+        exit(EXIT_FAILURE);
+    }
+    // Initialisation du buffer 
+    char buffer[BUFFER_SIZE];
+
+    // Ecriture dans le buffer HTML
+    printContentToHTMLV2(buffer,pop, n, ville, f);
+
+    // Ecriture dans le fichier HTML
+    fprintf(file, "%s", buffer);
+    fclose(file);
+}
+
 // Implémentation de la fonction qui permet n'importe quelle contenu dans le buffer html
 int printContentToHTML(char* buffer,const population pop, Person* p, int (*f)(char* buffer, const population pop, Person* p))
 {
@@ -70,6 +90,23 @@ int printContentToHTML(char* buffer,const population pop, Person* p, int (*f)(ch
     n += sprintf(buffer + n,"%s", htmlEnd);
     return n;
 }
+
+// Cette version nous permet d'utiliser d'autres format qui ne prenne pas en entrer la personne p
+int printContentToHTMLV2(char* buffer,const population pop, int n, char* ville, int (*f)(char* buffer, population pop, int n, char* ville))
+{
+    // Mise en page de l'en tête
+    int k = sprintf(buffer,"%s", htmlHeader);
+   
+   /*-------------------- C'est dans cette partie que l'on écrira le contenu de la page HTML (ancestor, fratrie, ...) ---------------*/
+    
+    // Ecriture du contenu dans le buffer HTML avec la fonction pointer sur fonction
+    k += (*f)(buffer + k, pop, n, ville);
+    
+    // Ajout des balises fermantes
+    k += sprintf(buffer + k,"%s", htmlEnd);
+    return k;
+}
+
 
 // Implémentation des fonctions contentAncestors et contentFratrie
 
@@ -172,3 +209,49 @@ void helperContentAncestors(const population pop, Person* p)
     free(ances.ancestorsTab);
 }
 
+// Implémentation de la fonction qui permet de remplir le contenu pour la page HTML de la recherche de la ville
+int contentNbyTown(char* buffer, population pop, int n, char* ville)
+{
+    // popclone contient toute la pupulation sans gap entre les personnes et trié par ville
+    population popclone = findNbyTown(pop);
+    
+     
+     /*---------------- code HTMl -------------------*/
+    int offset = sprintf(buffer, "   <h1 class =\"titre-h1\">Ville de %s</h1>\n", ville);
+    offset += sprintf(buffer + offset, "   <div class=\"ville-container\">\n");
+
+    int count = 0;
+    int i = 0;
+    while( i < popclone.size)
+    {
+        //printf("%d  - %s, %d\n",i, popclone.personstorage[i]->birthzipcode, popclone.personstorage[i]->id);
+        if (strcmp(ville, popclone.personstorage[i]->birthzipcode) == 0)
+        {
+            while (strcmp(ville, popclone.personstorage[i]->birthzipcode) == 0)
+            {
+                Person* personne = popclone.personstorage[i];
+
+                offset += sprintf(buffer + offset, "        <div class=\"sibling rectangle\">\n");
+                offset += sprintf(buffer + offset, "            <h2>%s, %s</h2>\n", personne->firstname, personne->lastname);
+                offset += sprintf(buffer + offset, "            <p> %02d/%02d/%04d </p>\n", personne->birthday, personne->birthmonth, personne->birthyear);
+                offset += sprintf(buffer + offset, "        </div>\n");
+
+                //printf("%d, %s, %s\n",popclone.personstorage[i]->id, popclone.personstorage[i]->lastname, popclone.personstorage[i]->firstname);
+                count++;
+                if (count == n) break;
+                i++;
+            }  
+        }
+        if (count == n) break;
+        i++; 
+    }
+    if (!count)
+    {
+        offset += sprintf(buffer + offset, "        <p>%s n'existe pas !</p>\n",ville);
+    }
+    offset += sprintf(buffer + offset, "   </div>\n");
+
+    freePersons(popclone.personstorage, popclone.capacity);
+    return offset;
+
+}
