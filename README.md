@@ -1,7 +1,7 @@
 # S2 UE Informatique - Projet CIR1
 
 ### Présentation du projet
-1. Objectifs
+
 Le projet porte sur l'implémentation d'un outil capable de générer des fichier HTML à partir de certains informations formatés dans un fichier CSV.
 
 **Contenu du fichier csv**
@@ -11,13 +11,8 @@ Le projet porte sur l'implémentation d'un outil capable de générer des fichie
 2,0,0,Hatton,Steve,25/7/1775,Yorkshire 
 3,0,0,Vockins,Mary,11/10/1777,West Yorkshire
 ```
-2. Contraintes et exigences
-- L'outil de génération doit être codé en langage C .
-- L'ensemble des fichiers généré dois être statique.
-- Obligation d'implémenter les fonctions fratrie et ancestors.
-- Un fichier par personne; nom des fichiers html: [id_person]-fiche.html
 
-3. Architecture du projet
+ ### Architecture du projet
 ![architecture](utils/img/architecture.png)
 
 - Le noyau : Un programme C qui génère automatiquement un site 
@@ -31,11 +26,11 @@ Le projet porte sur l'implémentation d'un outil capable de générer des fichie
 ```
 📦projet_genealogie
 ┣ 📂 export                    // Dossier contenant la sortie
-┃ ┗ :page_facing_up: .html 
+┃ ┗ 📜 *.html 
 ┃ ┣ 📂 ressources              // Dossier contenant les .csv
 ┃ ┣ 📂 scripts                 // Dossier script shell
 ┃ ┣ 📂 others 
-┃ ┗ .css
+┃ ┗ 📜 .css
 ┗   📂 src                     // Noyau du projet
     ┃ ┣ 📜 person.h
     ┃ ┣ 📜 person.c
@@ -52,10 +47,10 @@ Le projet porte sur l'implémentation d'un outil capable de générer des fichie
 ```
 
 
-## Compilation et excécution du programme
+## Compilation et exécution du programme
 1. Se rendre dans le dossier scripts
 2. Modifier la permission sur le **script**  `chmod +x script.sh`
-3. Compiler et executer le programme en utilisant la commande `./script.sh`.
+3. Compiler et exécuter le programme en utilisant la commande `./script.sh`.
 
 
 ## Modification de la population
