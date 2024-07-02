@@ -86,7 +86,7 @@ void menu(population pop,int argc, char* argv[])
 
 int main(int argc, char* argv[]) 
 {
-    const char filename[] = "../ressources/40.csv"; // 10 vile in 40.csv && 41 in 200.csv
+    const char filename[] = "../ressources/200.csv"; // 10 vile in 40.csv && 41 in 200.csv
     population pop = read_csv(filename);
     linkPopulation(pop);
     menu(pop, argc, argv);

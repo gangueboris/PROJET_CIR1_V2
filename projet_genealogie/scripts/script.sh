@@ -27,12 +27,12 @@ popd
 
 
 while true; do
-    #clear
+    clear
     #echo "Current directory: $(pwd)" 
     echo "===================================== Menu ====================================="
     echo "1. Générer les ancêtres d'une personne par id"
     echo "2. Générer la fratrie d'une personne par id"
-    echo "3. Afficher les personnes n premières personnes par ville"
+    echo "3. Afficher n personnes d'une ville"
     echo "4. Quitter"
     echo "================================================================================"
     read -p "Choisissez une option: " choice

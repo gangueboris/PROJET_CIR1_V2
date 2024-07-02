@@ -48,10 +48,14 @@ Le projet porte sur l'implémentation d'un outil capable de générer des fichie
 
 
 ## Compilation et exécution du programme
+0. Avoir le navigateur firefox d'installer sur votre os
 1. Se rendre dans le dossier scripts
 2. Modifier la permission sur le **script**  `chmod +x script.sh`
 3. Compiler et exécuter le programme en utilisant la commande `./script.sh`.
 
+**Note**
+Après l'option choisie, la page s'ouvre automatique.
+Si la nivagateur n'est pas intallé, il faudra ouvrir manuellement la page générée dans 📂export.
 
 ## Modification de la population
 
