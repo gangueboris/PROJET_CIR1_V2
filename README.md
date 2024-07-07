@@ -25,25 +25,25 @@ Le projet porte sur l'implémentation d'un outil capable de générer des fichie
 ### Organisation du projet
 ```
 📦projet_genealogie
-┣ 📂 export                    // Dossier contenant la sortie
-┃ ┗ 📜 *.html 
-┃ ┣ 📂 ressources              // Dossier contenant les .csv
-┃ ┣ 📂 scripts                 // Dossier script shell
-┃ ┣ 📂 others 
-┃ ┗ 📜 .css
-┗   📂 src                     // Noyau du projet
-    ┃ ┣ 📜 person.h
-    ┃ ┣ 📜 person.c
-    ┃ ┣ 📜 population.h
-    ┃ ┣ 📜 population.c
-    ┃ ┣ 📜 filemanager.h
-    ┃ ┣ 📜 filemanager.c
-    ┃ ┣ 📜 advanced.h
-    ┃ ┣ 📜 advanced.c
-    ┃ ┣ 📜 htmlexport.h
-    ┃ ┣ 📜 htmlexport.c
-    ┃ ┣ 📜 makefile
-    ┗   📂 output
+ ┃┗ 📂 export                    // Dossier contenant la sortie
+ ┃┃  ┗ 📜 *.html 
+ ┃┣ 📂 ressources              // Dossier contenant les .csv
+ ┃┣ 📂 scripts                 // Dossier script shell
+ ┃┣ 📂 others 
+ ┃┃  ┗ 📜 .css
+ ┃┗ 📂 src                     // Noyau du projet
+ ┃┃  ┣ 📜 person.h
+ ┃┃  ┣ 📜 person.c
+ ┃┃  ┣ 📜 population.h
+ ┃┃  ┣ 📜 population.c
+ ┃┃  ┣ 📜 filemanager.h
+ ┃┃  ┣ 📜 filemanager.c
+ ┃┃  ┣ 📜 advanced.h
+ ┃┃  ┣ 📜 advanced.c
+ ┃┃  ┣ 📜 htmlexport.h
+ ┃┃  ┣ 📜 htmlexport.c
+ ┃┃  ┗ 📜 makefile
+  ┗ 📂 output
 ```
 
 
